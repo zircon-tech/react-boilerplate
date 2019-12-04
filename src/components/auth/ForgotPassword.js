@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const ForgotPassword = () => {
+export default () => {
     const handleForgotPassword = () => {
         console.log("send a link to an user email")
     }

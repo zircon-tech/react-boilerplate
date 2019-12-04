@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from "react-router-dom";
-import form_rules from '../services/form_rules';
+import form_rules from '../../constants/rulesRegisterForm';
 import classnames from 'classnames';
 
 
@@ -17,7 +17,7 @@ class Register extends Component {
                 password_confirmation:'',
                 phone_number: '',
             },
-            validation : this.validator.valid(),
+            validation : this.validatorvalid(),
         }
         this.submitted = false;
     }
