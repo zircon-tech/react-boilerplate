@@ -1,25 +1,65 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import { withRouter, Link} from "react-router-dom";
+import classnames from 'classnames';
 import Loader from '../Loader';
+import FormValidator from '../FormValidator'
 
+
+const rules = [
+    { 
+        field: 'email', 
+        method: 'isEmpty', 
+        validWhen: false, 
+        message: 'Email is required.' 
+    },
+    { 
+        field: 'email',
+        method: 'isEmail', 
+        validWhen: true, 
+        message: 'That is not a valid email.'
+    },
+    { 
+        field: 'password', 
+        method: 'isEmpty', 
+        validWhen: false, 
+        message: 'Password is required.'
+    },
+]
+const useValidatedField = (rules, initialState) => {
+    const validator = new FormValidator(rules);
+    const [credentials, setCredentials] = useState(initialState);
+    const [validation, setValidation] = useState(validator.validate(credentials));
+    return [
+      validation,
+      credentials,
+      (newFields) => {
+        setValidation(validator.validate(newFields));
+        setCredentials(newFields);
+      },
+    ];
+  };
 
 const Login = ({loading, doLogin, history}) =>  {
-
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [validation, credentials, setCredentials] = useValidatedField(rules, {email:'', password: ''});
+    const [submmited, setSubmitted] = useState(false);
 
-    const handleCheckLogin = () => {
-         doLogin(email, password)
-        .then(response => {
-            console.log(response)
+    
+    useEffect(() => {
+        error && setError('');
+    }, [credentials]); 
+
+    const handleCheckLogin = async () => {
+        setSubmitted(true);
+        
+        if (validation.isValid) {
+            const response = await doLogin(credentials.email, credentials.password)
             if (response) {
                 history.push('/home')
             } else {
                 setError('The user or password was incorrect!, please try again.')
             }
-        })
-        .catch()
+        }
     }
    
     return(
@@ -33,33 +73,33 @@ const Login = ({loading, doLogin, history}) =>  {
                         <div className="col-lg-12 mb-4">
                             <div className="form-group">
                                 <input 
-                                    className="form-control"
+                                    className= {classnames("form-control", {'is-invalid': submmited &&  validation.email.isInvalid})}
                                     name="email" 
                                     onChange = {
                                         (e) => {
-                                            setError('');
-                                            setEmail(e.target.value);
+                                            setCredentials({...credentials, email: e.target.value});
                                         } 
                                     }
                                     placeholder="Email" 
                                     type="text"
-                                    value={email}
+                                    value={credentials.email}
                                 />
+                                <span className="text-muted">{submmited && validation.email.message}</span>
                             </div>
                             <div className="form-group">
                                 <input 
-                                    className="form-control"  
+                                    className= {classnames("form-control", {'is-invalid':  submmited && validation.password.isInvalid})}
                                     name="password"
                                     onChange = {
                                         (e) => {
-                                            setError('');
-                                            setPassword(e.target.value)
+                                            setCredentials({...credentials, password: e.target.value})
                                         } 
                                     } 
                                     placeholder="Password"
                                     type="password"
-                                    value={password}
+                                    value={credentials.password}
                                 />
+                                 <span className="text-muted">{submmited && validation.password.message}</span>
                             </div>
                             <div className="mb-4">
                                 <span className="text-danger">{error}</span>

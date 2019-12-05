@@ -1,8 +1,82 @@
 import React, { Component } from 'react';
 import { withRouter } from "react-router-dom";
-import form_rules from '../../constants/rulesRegisterForm';
+import FormValidator from '../FormValidator';
 import classnames from 'classnames';
 
+
+const passwordMatch = (confirmation, state) => (state.password === confirmation)
+
+const form_rules =  new FormValidator([
+   { 
+       field: 'first_name', 
+       method: 'isEmpty', 
+       validWhen: false, 
+       message: 'First Name is required.' 
+   },
+   { 
+       field: 'last_name', 
+       method: 'isEmpty', 
+       validWhen: false, 
+       message: 'Last Name is required.' 
+   },
+   { 
+       field: 'email', 
+       method: 'isEmpty', 
+       validWhen: false, 
+       message: 'Email is required.' 
+   },
+   { 
+       field: 'email',
+       method: 'isEmail', 
+       validWhen: true, 
+       message: 'That is not a valid email.'
+   },
+   { 
+       field: 'phone_number', 
+       method: 'isEmpty', 
+       validWhen: false, 
+       message: 'Please provide a phone number.'
+   },
+   {
+       field: 'phone_number', 
+       method: 'matches',
+       args: [/^\(?\d\d\d\)? ?\d\d\d\d\d\d$/],
+       validWhen: true, 
+       message: 'That is not a valid phone number.'
+   },
+   { 
+       field: 'password', 
+       method: 'isEmpty', 
+       validWhen: false, 
+       message: 'Password is required.'
+   },
+   { 
+       field: 'password', 
+       method: 'matches',
+       args: [/^.*(?=.{6,}).*$/], 
+       validWhen: true, 
+       message: 'Password must have at least six characters.'
+   },
+   { 
+       field: 'password', 
+       method: 'matches',
+       args: [/^.*(?=.*[A-Z]).*$/], 
+       validWhen: true, 
+       message: 'Password must have at least one uppercase.'
+   },
+   { 
+       field: 'password_confirmation', 
+       method: 'isEmpty', 
+       validWhen: false, 
+       message: 'Password confirmation is required.'
+   },
+   { 
+       field: 'password_confirmation', 
+       method: passwordMatch, 
+       validWhen: true, 
+       message: 'Password and password confirmation do not match.'
+   }
+])
 
 class Register extends Component {
     constructor() {
@@ -17,7 +91,7 @@ class Register extends Component {
                 password_confirmation:'',
                 phone_number: '',
             },
-            validation : this.validatorvalid(),
+            validation : this.validator.valid(),
         }
         this.submitted = false;
     }
@@ -29,10 +103,9 @@ class Register extends Component {
         this.submitted = true;
 
         if (validation.isValid) {
-            console.log("calling to register user");
+            console.log("calling api to register user");
             // handle actual form submission here
           }
-
     }
 
     handleOnChange = (e) => {
@@ -103,10 +176,10 @@ class Register extends Component {
                                         <div className="row mt-5">
                                             <div className="col-lg-6 text-right">
                                                 <button type="button"
-                                                    className="btn btn-secondary"
+                                                    className="btn btn-primary"
                                                     onClick = {() => this.props.history.push('/')}
                                                 >
-                                                        Back
+                                                        Go to Login
                                                 </button>
                                             </div>
                                             <div className="col-lg-6 text-left">
