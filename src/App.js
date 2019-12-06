@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
-import Login from './components/Login'
+import LoginContainer from './containers/LoginContainer'
 import './App.css';
 import {Route , Switch} from "react-router-dom";
-import  Register  from './components/Register';
-import { ForgotPassword } from './components/ForgotPassword';
+import  Register  from './components/auth/Register';
+import  ForgotPassword  from './components/auth/ForgotPassword';
 
 
-class App extends Component{
-    
+class App extends Component {
     render() {
         return (
         <div className="App">
@@ -22,7 +21,7 @@ class App extends Component{
                     <ForgotPassword></ForgotPassword>
                 </Route>
                 <Route exact path="/">
-                    <Login></Login>
+                    <LoginContainer/>
                 </Route>
                 
             </Switch>
