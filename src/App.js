@@ -11,7 +11,7 @@ class App extends Component {
         return (
         <div className="App">
             <Switch>
-                <Route path="/register">
+                <Route path="/user">
                     <Register />
                 </Route>
                 <Route  path="/home">
@@ -20,7 +20,7 @@ class App extends Component {
                 <Route exact path="/forgotPassword">
                     <ForgotPassword></ForgotPassword>
                 </Route>
-                <Route exact path="/">
+                <Route exact path="/login">
                     <LoginContainer/>
                 </Route>
                 

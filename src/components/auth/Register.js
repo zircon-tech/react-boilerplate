@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from "react-router-dom";
 import FormValidator from '../FormValidator';
 import classnames from 'classnames';
+import * as userService from '../../services/api/user.service'
 
 
 const passwordMatch = (confirmation, state) => (state.password === confirmation)
@@ -96,16 +97,17 @@ class Register extends Component {
         this.submitted = false;
     }
     
-    handleSubmit = (event) => {
+    handleSubmit = async (event) => {
         event.preventDefault();
         const validation = this.validator.validate(this.state.user);
         this.setState({ validation });
         this.submitted = true;
 
         if (validation.isValid) {
-            console.log("calling api to register user");
-            // handle actual form submission here
-          }
+            userService.register(this.state.user)
+            this.props.history.push('/login')
+            
+        }
     }
 
     handleOnChange = (e) => {
@@ -134,7 +136,7 @@ class Register extends Component {
                                         <div className= "form-group row">
                                             <label htmlFor="first_name" className="col-sm-2 col-form-label">First Name</label>
                                             <div className="col-sm-10">
-                                                <input onChange = {this.handleOnChange} type="text" name="first_name" className={`form-control ${validation.first_name.isInvalid ? 'is-invalid' : ''}`} placeholder="First Name" ></input>
+                                                <input onChange = {this.handleOnChange} type="text" name="first_name" className={classnames("form-control", {'is-invalid': validation.first_name.isInvalid })} placeholder="First Name" ></input>
                                                 <span className="text-muted">{validation.first_name.message}</span>
                                             </div>
                                         </div>
@@ -177,7 +179,7 @@ class Register extends Component {
                                             <div className="col-lg-6 text-right">
                                                 <button type="button"
                                                     className="btn btn-primary"
-                                                    onClick = {() => this.props.history.push('/')}
+                                                    onClick = {() => this.props.history.push('/login')}
                                                 >
                                                         Go to Login
                                                 </button>

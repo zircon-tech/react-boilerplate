@@ -1,8 +1,9 @@
-import React, { useState , useEffect} from 'react';
+import React, { useState , useEffect } from 'react';
 import { withRouter, Link} from "react-router-dom";
 import classnames from 'classnames';
 import Loader from '../Loader';
 import FormValidator from '../FormValidator'
+import { setToken } from './auth'
 
 
 const rules = [
@@ -23,6 +24,13 @@ const rules = [
         method: 'isEmpty', 
         validWhen: false, 
         message: 'Password is required.'
+    },
+    { 
+        field: 'password', 
+        method: 'matches',
+        args: [/^.*(?=.{6,}).*$/], 
+        validWhen: true, 
+        message: 'Password must have at least six characters.'
     },
 ]
 const useValidatedField = (rules, initialState) => {
@@ -55,6 +63,7 @@ const Login = ({loading, doLogin, history}) =>  {
         if (validation.isValid) {
             const response = await doLogin(credentials.email, credentials.password)
             if (response) {
+                setToken(response.data.jwtToken);
                 history.push('/home')
             } else {
                 setError('The user or password was incorrect!, please try again.')
