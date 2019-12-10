@@ -97,7 +97,7 @@ class Register extends Component {
         this.submitted = false;
     }
     
-    handleSubmit = async (event) => {
+    handleSubmit = () => {
         event.preventDefault();
         const validation = this.validator.validate(this.state.user);
         this.setState({ validation });
@@ -106,7 +106,6 @@ class Register extends Component {
         if (validation.isValid) {
             userService.register(this.state.user)
             this.props.history.push('/login')
-            
         }
     }
 
@@ -164,7 +163,7 @@ class Register extends Component {
                                         <div className="form-group row">
                                             <label htmlFor="password" className="col-sm-2 col-form-label">Password</label>
                                             <div className="col-sm-10">
-                                                <input onChange = {this.handleOnChange}  type="password" name="password"  className={classnames("form-control", {'is-invalid': validation.password.isInvalid })} placeholder="Password"></input>
+                                                <input onChange = {this.handleOnChange} maxLength="20" type="password" name="password"  className={classnames("form-control", {'is-invalid': validation.password.isInvalid })} placeholder="Password"></input>
                                                 <span className="text-muted">{validation.password.message}</span>
                                             </div>
                                         </div>

@@ -1,4 +1,5 @@
-import { unAuthAxiosCall } from './axiosCall';
+import { unAuthAxiosCall, authAxiosCall} from './axiosCall';
+import { deleteToken } from '../../components/auth/auth' 
 
 export const login = async (email, password) => {
     return unAuthAxiosCall(
@@ -34,3 +35,24 @@ export const register = async (user) => {
 }
    
 
+export function resetPasswordWithToken(user, passwordResetToken) {
+    return unAuthAxiosCall(`/reset-password/${passwordResetToken}`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        accepts: 'application/json',
+        body: JSON.stringify({
+            newPassword: user.newPassword
+        })
+    });
+}
+
+export function logout() {
+    return authAxiosCall(
+        '/logout',
+        {
+            method: 'POST',
+        }
+    ).then(() => {
+        deleteToken();
+    });
+}

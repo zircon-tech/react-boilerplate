@@ -22,3 +22,7 @@ export const getToken = () =>  {
     }
     return null;
 }
+
+export function deleteToken() {
+    storage.removeItem(tokenKey);
+}

@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import Loader from '../Loader';
 import FormValidator from '../FormValidator'
 import { setToken } from './auth'
+import PropTypes from 'prop-types';
 
 
 const rules = [
@@ -47,12 +48,11 @@ const useValidatedField = (rules, initialState) => {
     ];
   };
 
-const Login = ({loading, doLogin, history}) =>  {
+const Login = ({ loading, doLogin, history }) =>  {
     const [error, setError] = useState('');
     const [validation, credentials, setCredentials] = useValidatedField(rules, {email:'', password: ''});
     const [submmited, setSubmitted] = useState(false);
 
-    
     useEffect(() => {
         error && setError('');
     }, [credentials]); 
@@ -79,7 +79,7 @@ const Login = ({loading, doLogin, history}) =>  {
                         <div className="col-lg-12 mb-5">
                             <h2>Login</h2>
                         </div>
-                        <div className="col-lg-12 mb-4">
+                        <div className="col-lg-10 mb-4 mx-auto">
                             <div className="form-group">
                                 <input 
                                     className= {classnames("form-control", {'is-invalid': submmited &&  validation.email.isInvalid})}
@@ -132,10 +132,20 @@ const Login = ({loading, doLogin, history}) =>  {
                                 <u>Recover it</u>
                             </Link>
                         </p>
+                        <Link
+                            className="text-decoration text-dark"
+                            to="/ressetPassword">
+                             <u>Reset Password (temporal)</u>
+                        </Link>
                     </div>
                 </div>
             </section>
         )
     }
 
+Login.propTypes = {
+    loading: PropTypes.bool.isRequired,
+    doLogin: PropTypes.func.isRequired,
+    history: PropTypes.func.isRequired,
+}
 export default withRouter(Login);
