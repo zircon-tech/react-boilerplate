@@ -8,7 +8,7 @@ class FormValidator {
 
   validate(state) {
     // start out assuming valid
-    let validation = this.valid();
+    const validation = this.valid();
 
     // for each validation rule
     this.validations.forEach(rule => {
@@ -20,16 +20,16 @@ class FormValidator {
         const args = rule.args || [];
         const validation_method = 
               typeof rule.method === 'string' ?
-              validator[rule.method] : 
-              rule.method
+                validator[rule.method] : 
+                rule.method;
               
         // call the validation_method with the current field value as the first
         // argument, any additional arguments, and the whole state as a final
         // argument.  If the result doesn't match the rule.validWhen property,
         // then modify the validation object for the field and set the isValid
         // field to false
-        if(validation_method(field_value, ...args, state) !== rule.validWhen) {
-          validation[rule.field] = { isInvalid: true, message: rule.message }
+        if (validation_method(field_value, ...args, state) !== rule.validWhen) {
+          validation[rule.field] = { isInvalid: true, message: rule.message };
           validation.isValid = false;
         }
       }
@@ -39,7 +39,7 @@ class FormValidator {
   }
 
   valid() {
-    const validation = {}
+    const validation = {};
 
     this.validations.map(rule => (
       validation[rule.field] = { isInvalid: false, message: '' }
