@@ -1,5 +1,6 @@
 module.exports = {
-    "env": {
+  parser: 'babel-eslint',
+  "env": {
         "browser": true,
         "es6": true
     },
@@ -23,6 +24,11 @@ module.exports = {
         "react"
     ],
     "rules": {
+        "react/prefer-stateless-function":0,
+        "react/jsx-filename-extension":0,
+        "no-unused-expressions":0,
+        "camelcase":0,
+        "no-use-before-define":0,
         "quotes": 0,
         "no-console": 1,
         "no-debugger": 1,
