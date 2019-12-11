@@ -22,7 +22,11 @@ class App extends Component {
             <h2>Welcome to Home Page</h2>
           </Route>
           <Route exact path="/forgotPassword">
-            <ForgotPassword />
+            <AuthLayout
+              header="Recover Password"
+            >
+              <ForgotPassword/>
+            </AuthLayout>
           </Route>
           <Route exact path="/login">
             <AuthLayout
@@ -47,7 +51,7 @@ class App extends Component {
                     </p>
                     <Link
                       className="text-decoration text-dark"
-                      to="/ressetPassword">
+                      to="/resetPassword">
                       <u>Reset Password (temporal)</u>
                     </Link>
                   </>
@@ -57,7 +61,7 @@ class App extends Component {
               <LoginContainer/>
             </AuthLayout>
           </Route>
-          <Route exact path="/ressetPassword">
+          <Route exact path="/resetPassword">
             <ResetPassword/>
           </Route>
         </Switch>

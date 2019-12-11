@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import classnames from 'classnames';
 import FormValidator from '../FormValidator';
+import * as userService from '../../services/api/user.service';
 
 const rules = [
   { 
@@ -39,38 +40,38 @@ export default () => {
   const handleForgotPassword = () => {
     setSubmitted(true);
     if (validation.isValid) {
-      console.log("send a link to an user email");
-      // handle actual form submission here
+      userService.forgotPassword(email)
+        .then(response => {
+          //  Mostrar que se envio el email ?
+        })
+        .catch(error => {
+          
+        });
     }
   };
  
   return (
-    <section className="container-fluid h-100 px-4 px-md-5 py-md-5">
-      <div className="row justify-content-sm-center mt-4 mb-5">
-        <div className="col-sm-8 col-md-5 col-lg-4 bg-light rounded p-3 p-md-5 text-center">
-          <div className="col-lg-12 mb-5">
-            <h2 className="mb-5">Recover Password</h2>
-            <div className="mt-1">
-              <p className="card-text "> We will send you a link to recover your password, please enter your email</p>
-              <div className="form-group mt-2">
-                <input 
-                  className={classnames("form-control", {'is-invalid': submmited && validation.email.isInvalid})}
-                  onChange={
-                    (e) => {
-                      setEmail({email: e.target.value});
-                    }
-                  }
-                  placeholder="Email" 
-                  type="text"
-                  value={email}
-                />
-                <span className="text-muted">{submmited && validation.email.message}</span>
-              </div>
-            </div>
-          </div>
-          <button onClick={handleForgotPassword} type="button" className="btn btn-primary">Send me an email</button>
+    <>
+      <div>
+        <p className="card-text"> We will send you a link to recover your password, please enter your email</p>
+        <div className="form-group mt-2">
+          <input 
+            className={classnames("form-control", {'is-invalid': submmited && validation.email.isInvalid})}
+            onChange={
+              (e) => {
+                setEmail({email: e.target.value});
+              }
+            }
+            placeholder="Email" 
+            type="text"
+            value={email}
+          />
+          <span className="text-muted">{submmited && validation.email.message}</span>
         </div>
       </div>
-    </section>
+      <div className="mt-5">
+        <button onClick={handleForgotPassword} type="button" className="btn btn-primary">Send me an email</button>
+      </div>
+    </>  
   );
 };
