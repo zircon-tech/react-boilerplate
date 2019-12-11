@@ -29,18 +29,29 @@ export const register = async (user) => unAuthAxiosCall(
     ),
   }
 );
-   
 
-export function resetPasswordWithToken(user, passwordResetToken) {
-  return unAuthAxiosCall(`/reset-password/${passwordResetToken}`, {
+export const forgotPassword = (email) => unAuthAxiosCall(
+  '/user/forgot-password',
+  {
     method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    accepts: 'application/json',
+    body: JSON.stringify(
+      {
+        email,
+        url: '/resetPassword'
+      }
+    )
+  }
+);
+
+export const forgotPasswordConfirm = async (user, token) => (
+  unAuthAxiosCall('/forgot_password_confirm', {
+    method: 'POST',
     body: JSON.stringify({
-      newPassword: user.newPassword
+      newPassword: user.newPassword,
+      token
     })
-  });
-}
+  })
+);
 
 export function logout() {
   return authAxiosCall(

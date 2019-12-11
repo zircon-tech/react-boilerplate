@@ -70,23 +70,36 @@ class ResetPassword extends Component {
         }
       });
     }
-
-    handleSubmit = () => {
-      this.loading = this.submitted = true;
-      const validation = this.validator.validate(this.state.user);
-      this.setState({ validation});
-
-      if (validation.isValid) {
-        userService.resetPasswordWithToken(this.state.user, this.props.token).then(
-          () => this.props.history.push('/login')
-        ).catch(
-          (error) => this.setState({
-            // error: (error instanceof ClientError) ? error.message : 'Internal Error'
-          })
-        );
-      } 
+    
+    getTokenParamFromUrl = () => {
+      const query = new URLSearchParams(this.props.location.search);
+      return query.get('token');
     }
 
+    handleSubmit = () => {
+      this.loading = true;
+      const token = this.getTokenParamFromUrl();
+      this.setState(
+        state => {
+          const validation = this.validator.validate(state.user);
+          if (validation.isValid) {
+            userService.forgotPasswordConfirm(state.user, token)
+              .then(
+                () => this.props.history.push('/home')
+              ).catch(
+                (error) => this.setState({
+                // error: (error instanceof ClientError) ? error.message : 'Internal Error'
+                })
+              );
+          }
+          return { 
+            validation 
+          };
+        }
+      );
+      this.submitted = true;
+    }
+    
     render() {
       const validation = this.submitted ?                      
         this.validator.validate(this.state.user) :
