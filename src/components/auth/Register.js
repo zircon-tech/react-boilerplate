@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import classnames from 'classnames';
 import FormValidator from '../FormValidator';
 import * as userService from '../../services/api/user.service';
+import * as validations from '../../lib/utils/validations';
 
 
 const passwordMatch = (confirmation, state) => (state.password === confirmation);
@@ -54,16 +55,30 @@ const form_rules = new FormValidator([
   { 
     field: 'password', 
     method: 'matches',
-    args: [/^.*(?=.{6,}).*$/], 
+    args: validations.contain8Character(), 
     validWhen: true, 
-    message: 'Password must have at least 6 characters.'
+    message: 'Password must have at least 8 characters.'
   },
   { 
     field: 'password', 
     method: 'matches',
-    args: [/^.*(?=.*[A-Z]).*$/], 
+    args: validations.contain1UpperCase(), 
     validWhen: true, 
     message: 'Password must have at least one uppercase.'
+  },
+  { 
+    field: 'password', 
+    method: 'matches',
+    args: validations.contain1LowerCase(), 
+    validWhen: true, 
+    message: 'Password must have at least one lowercase.'
+  },
+  { 
+    field: 'password', 
+    method: 'matches',
+    args: validations.contain1NumberOrSpecialChar(), 
+    validWhen: true, 
+    message: 'Password must have at least one number or special char.'
   },
   { 
     field: 'password_confirmation', 
