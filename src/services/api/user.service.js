@@ -1,4 +1,4 @@
-import { unAuthAxiosCall, authAxiosCall} from './axiosCall';
+import { unAuthAxiosCall } from './axiosCall';
 import { deleteToken } from '../../components/auth/auth'; 
 
 export const login = async (email, password) => unAuthAxiosCall(
@@ -31,35 +31,36 @@ export const register = async (user) => unAuthAxiosCall(
 );
 
 export const forgotPassword = (email) => unAuthAxiosCall(
-  '/user/forgot-password',
+  '/user/forgot_password',
   {
     method: 'POST',
     body: JSON.stringify(
       {
         email,
-        url: '/resetPassword'
+        url: 'reset_password?token='
       }
     )
   }
 );
 
 export const forgotPasswordConfirm = async (user, token) => (
-  unAuthAxiosCall('/forgot_password_confirm', {
+  unAuthAxiosCall('/user/forgot_password_confirm', {
     method: 'POST',
     body: JSON.stringify({
-      newPassword: user.newPassword,
+      password: user.newPassword,
       token
     })
   })
 );
 
 export function logout() {
-  return authAxiosCall(
-    '/logout',
-    {
-      method: 'POST',
-    }
-  ).then(() => {
-    deleteToken();
-  });
+  deleteToken();
+  // return authAxiosCall(
+  //   '/logout',
+  //   {
+  //     method: 'POST',
+  //   }
+  // ).then(() => {
+  //   deleteToken();
+  // });
 }

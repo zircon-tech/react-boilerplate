@@ -42,10 +42,10 @@ export default () => {
     if (validation.isValid) {
       userService.forgotPassword(email)
         .then(response => {
-          //  Mostrar que se envio el email ?
+          alert("The email was sent, please check your mailbox.");
         })
         .catch(error => {
-          
+          // error: (error instanceof ClientError) ? error.message : 'Internal Error'
         });
     }
   };
@@ -57,6 +57,7 @@ export default () => {
         <div className="form-group mt-2">
           <input 
             className={classnames("form-control", {'is-invalid': submmited && validation.email.isInvalid})}
+            name="email"
             onChange={
               (e) => {
                 setEmail({email: e.target.value});
