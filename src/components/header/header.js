@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import {
   Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink 
 } from 'reactstrap';
+import { withRouter } from "react-router-dom";
 import * as userService from '../../services/api/user.service';
 
-const Header = (props) => {
+const Header = ({history}) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const toggle = () => setDropdownOpen(!dropdownOpen);
@@ -24,7 +25,7 @@ const Header = (props) => {
               onClick={
                 (ev) => userService.logout().then(
                   () => {
-                    this.props.history.push('/');
+                    history.push('/');
                   }
                 )
               }
@@ -38,4 +39,4 @@ const Header = (props) => {
   );
 };
 
-export default Header;
+export default withRouter(Header);
