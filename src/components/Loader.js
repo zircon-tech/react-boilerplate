@@ -1,12 +1,10 @@
 import React from 'react';
-import '../rsc/scss/loading.scss'
+import '../rsc/scss/loading.scss';
 
 
-const Loader = () => {
-    return (
-        <div className="loader">
-            <div className="loader-indicator" />
-        </div>
-    )
-}
-export default Loader
+const Loader = () => (
+  <div className="loader">
+    <div className="loader-indicator" />
+  </div>
+);
+export default Loader;
