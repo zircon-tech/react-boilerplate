@@ -32,7 +32,6 @@ const useValidatedField = (initialState) => {
   ];
 };
 
-  
 export default () => {
   const [validation, {email}, setEmail] = useValidatedField({email: ''});
   const [submmited, setSubmitted] = useState(false);
