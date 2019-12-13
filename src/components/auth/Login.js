@@ -48,6 +48,7 @@ const useValidatedField = (initialState) => {
 
 const Login = ({ loading, doLogin, history }) => {
   const [error, setError] = useState('');
+  const [data, setData] = useState('');
   const [validation, credentials, setCredentials] = useValidatedField({email: '', password: ''});
   const [submmited, setSubmitted] = useState(false);
   const [registerModal, setRegisterModal] = useState(false);
@@ -70,17 +71,20 @@ const Login = ({ loading, doLogin, history }) => {
       }
     }
   };
-   const submitHandler = () => {
-
-   }
+  
+  const onModalSubmit = (profile) => {
+    console.log("submitted register modal in true");
+  };
 
   return (
     loading ? <Loader/> : (  
       <> 
         <RegisterModal 
           modal={registerModal}
-          submitHandler={() => alert("gomito")}
+          submitHandler={onModalSubmit}
           setModal={setRegisterModal}
+          size="lg"
+          data={data}
         />
         <div className="form-group">
           <input 
@@ -116,8 +120,10 @@ const Login = ({ loading, doLogin, history }) => {
           <span className="text-danger">{error}</span>
         </div>
         <div>
-          <button type="button" onClick={handleCheckLogin} name="Login" className="btn btn-primary">Login</button>
+          {/* <button type="button" onClick={handleCheckLogin} name="Login" className="btn btn-primary">Login</button> */}
+          <button type="button" onClick={() => setRegisterModal(true)} name="Login" className="btn btn-primary">test</button> 
         </div>
+        
         <GoogleLogin
           clientId={constants.GOOGLE_AUTH_CLIENT_ID}
           onSuccess={
@@ -128,7 +134,10 @@ const Login = ({ loading, doLogin, history }) => {
                 (apiResponse) => {
                   if (apiResponse.token) {
                     setToken(apiResponse.token);
-                  } else {
+                  } else { 
+                    if (apiResponse.isInfoMissing) {
+                      setData(apiResponse.missingInfo);
+                    }
                     setRegisterModal(true);
                   }
                 }

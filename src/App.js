@@ -24,7 +24,6 @@ class App extends Component {
             <Register />
           </Route>
           <PrivateRoute path="/home" component={Header} />
-          {/* <h2>Welcome to Home Page</h2> */}
           <Route exact path="/forgot_password">
             <AuthLayout
               header="Recover Password"

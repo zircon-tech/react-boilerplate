@@ -68,11 +68,11 @@ export function logout() {
 
 export function loginWGoogle(accessToken) {
   return unAuthAxiosCall(
-    '/auth/google/check-token',
+    'user/google_account',
     {
       method: "POST",
       body: JSON.stringify({
-        accessToken
+        token: accessToken
       })
     }
   );
