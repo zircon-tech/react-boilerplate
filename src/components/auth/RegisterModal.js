@@ -27,12 +27,32 @@ const RegisterModal = (props) => {
   const [errorEmail, setErrorEmail] = useState(null);
   const [errorPhoneNumber, setErrorPhoneNumber] = useState(null);
 
-  const toggle = () => setModal(!modal);
+  const toggle = () => {
+    setModal(!modal);
+  };
   const profile = {
     firstName,
     lastName,
     cellphone,
     email
+  };
+
+  const onClosed = () => {
+    setFirstName("");
+    setLastName("");
+    setPhoneNumber("");
+    setEmail("");
+    setErrorFirstName("");
+    setErrorLastName("");
+    setErrorEmail("");
+    setErrorPhoneNumber("");
+  };
+
+  const onOpened = () => {
+    setFirstName(data.first_name);
+    setLastName(data.last_name);
+    setEmail(data.email);
+    setPhoneNumber(data.cellphone);
   };
 
   useEffect(() => {
@@ -44,7 +64,7 @@ const RegisterModal = (props) => {
           message: 'First Name is required.' 
         }], firstName).filter(rule => rule.isInvalid);
       setErrorFirstName(validateFirstName[0] || null);
-
+      
       const validateLastName = fieldValidator([
         { 
           method: 'isEmpty', 
@@ -53,19 +73,16 @@ const RegisterModal = (props) => {
         }], lastName).filter(rule => rule.isInvalid);
       setErrorLastName(validateLastName[0] || null);
      
-      const validatePhoneNumber = fieldValidator([
-        { 
-          method: 'isEmpty', 
-          validWhen: false, 
-          message: 'Please provide a phone number.'
-        },
-        {
-          method: 'matches',
-          args: [/^\(?\d\d\d\)? ?\d\d\d\d\d\d$/],
-          validWhen: true, 
-          message: 'That is not a valid phone number.'
-        }], cellphone).filter(rule => rule.isInvalid);
-      setErrorPhoneNumber(validatePhoneNumber[0] || null);
+      if (cellphone) {
+        const validatePhoneNumber = fieldValidator([
+          {
+            method: 'matches',
+            args: [/^\(?\d\d\d\)? ?\d\d\d\d\d\d$/],
+            validWhen: true, 
+            message: 'That is not a valid phone number.'
+          }], cellphone).filter(rule => rule.isInvalid);
+        setErrorPhoneNumber(validatePhoneNumber[0] || null);
+      }
       
       const validateEmail = fieldValidator([
         { 
@@ -86,7 +103,14 @@ const RegisterModal = (props) => {
   
   return (
     <div>
-      <Modal isOpen={modal} toggle={toggle} size={size} className={className}>
+      <Modal 
+        className={className}
+        isOpen={modal} 
+        onClosed={onClosed}
+        onOpened={onOpened}
+        size={size} 
+        toggle={toggle} 
+      >
         <ModalHeader toggle={toggle}>Register</ModalHeader>
         <ModalBody>
           <div className="form-group row">
@@ -118,6 +142,20 @@ const RegisterModal = (props) => {
             </div>
           </div>
           <div className="form-group row">
+            <label htmlFor="email" className="col-sm-2 col-form-label">Email</label>
+            <div className="col-sm-10">
+              <CInput  
+                type="text" 
+                name="email"
+                onChange={setEmail}
+                className={classnames("form-control", {'is-invalid': errorEmail && errorEmail.isInvalid})} 
+                placeholder="Email"
+                value={email}
+              />
+              <span className="text-muted">{errorEmail && errorEmail.message}</span>
+            </div>
+          </div>
+          <div className="form-group row">
             <label htmlFor="phone_number" className="col-sm-2 col-form-label">Celphone</label>
             <div className="col-sm-10">
               <CInput
@@ -131,24 +169,10 @@ const RegisterModal = (props) => {
               <span className="text-muted">{errorPhoneNumber && errorPhoneNumber.message}</span>
             </div>
           </div>
-          <div className="form-group row">
-            <label htmlFor="email" className="col-sm-2 col-form-label">Email</label>
-            <div className="col-sm-10">
-              <CInput  
-                type="text" 
-                name="email"
-                onChange={setEmail}
-                className={classnames("form-control", {'is-invalid': errorEmail && errorEmail.message})} 
-                placeholder="Email"
-                value={email}
-              />
-              <span className="text-muted">{errorEmail && errorEmail.message}</span>
-            </div>
-          </div>
         </ModalBody>
         <ModalFooter>
           <Button 
-            color="primary" 
+            color="primary"
             onClick={
               () => {
                 setSubmitted(true);

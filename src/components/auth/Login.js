@@ -52,6 +52,7 @@ const Login = ({ loading, doLogin, history }) => {
   const [validation, credentials, setCredentials] = useValidatedField({email: '', password: ''});
   const [submmited, setSubmitted] = useState(false);
   const [registerModal, setRegisterModal] = useState(false);
+  const [googleToken, setGoogleToken] = useState('');
   
   
   useEffect(() => {
@@ -72,8 +73,34 @@ const Login = ({ loading, doLogin, history }) => {
     }
   };
   
-  const onModalSubmit = (profile) => {
-    console.log("submitted register modal in true");
+  const callToLoginRegisterWithGoogle = (apiResponse) => {
+    if (apiResponse.data.jwtToken) {
+      setToken(apiResponse.data.jwtToken);
+      history.push('/home');
+    } else { 
+      if (apiResponse.data.isInfoMissing) {
+        setData(apiResponse.data.infoMissing);
+      }
+      setRegisterModal(true);
+    }
+  };
+
+  const onRegisterModalSubmit = (profile) => {
+    userService.loginWGoogle(
+      googleToken,
+      profile
+    ).then(
+      (apiResponse) => {
+        callToLoginRegisterWithGoogle(apiResponse);
+      }
+    ).catch(
+      (apiResponseError) => {
+        console.log(apiResponseError);
+        // this.setState({
+        //  error: (error instanceof ClientError) ? error.message : "Internal Error"
+        // });
+      }
+    );
   };
 
   return (
@@ -81,7 +108,7 @@ const Login = ({ loading, doLogin, history }) => {
       <> 
         <RegisterModal 
           modal={registerModal}
-          submitHandler={onModalSubmit}
+          submitHandler={onRegisterModalSubmit}
           setModal={setRegisterModal}
           size="lg"
           data={data}
@@ -128,22 +155,16 @@ const Login = ({ loading, doLogin, history }) => {
           clientId={constants.GOOGLE_AUTH_CLIENT_ID}
           onSuccess={
             (googleResponse) => {
+              setGoogleToken(googleResponse.tokenId);
               userService.loginWGoogle(
                 googleResponse.tokenId,
               ).then(
                 (apiResponse) => {
-                  if (apiResponse.token) {
-                    setToken(apiResponse.token);
-                  } else { 
-                    if (apiResponse.isInfoMissing) {
-                      setData(apiResponse.missingInfo);
-                    }
-                    setRegisterModal(true);
-                  }
+                  callToLoginRegisterWithGoogle(apiResponse);
                 }
               ).catch(
-                (error) => {
-                  console.log(error);
+                (apiResponseError) => {
+                  console.log(apiResponseError);
                   // this.setState({
                   //  error: (error instanceof ClientError) ? error.message : "Internal Error"
                   // });
@@ -152,8 +173,8 @@ const Login = ({ loading, doLogin, history }) => {
             }
           }
           onFailure={
-            ({error, details}) => {
-              console.log(error, details);
+            ({rejectError, details}) => {
+              console.log(rejectError, details);
             }
           }
           render={

@@ -66,13 +66,14 @@ export function logout() {
   // });
 }
 
-export function loginWGoogle(accessToken) {
+export function loginWGoogle(accessToken, user) {
   return unAuthAxiosCall(
-    'user/google_account',
+    '/user/google_account',
     {
       method: "POST",
       body: JSON.stringify({
-        token: accessToken
+        token: accessToken,
+        user: user || {}
       })
     }
   );

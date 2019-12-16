@@ -118,7 +118,10 @@ class Register extends Component {
         state => {
           const validation = this.validator.validate(state.user);
           if (validation.isValid) {
-            userService.register(state.user);
+            userService.register(state.user)
+              .then(response => {
+                alert("Usuario registrado correctamente!"); // ToDo
+              });
             this.props.history.push('/login');
           }
           return { 
