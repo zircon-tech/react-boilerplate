@@ -4,6 +4,8 @@ import {
 } from 'reactstrap';
 import { withRouter } from "react-router-dom";
 import * as userService from '../../services/api/user.service';
+import CLogo from '../common/CLogo';
+import imgLogo from '../../rsc/images/favicon.ico';
 
 const Header = ({history}) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -18,7 +20,7 @@ const Header = ({history}) => {
         </NavItem>
         <Dropdown nav isOpen={dropdownOpen} toggle={toggle}>
           <DropdownToggle nav>
-            <img style={{width: "40px", height: "40px"}} src="favicon.ico" alt="Logo"/>
+            <CLogo width="40px" height="40px" src={imgLogo} alt="Profile image"/>
           </DropdownToggle>
           <DropdownMenu>
             <DropdownItem

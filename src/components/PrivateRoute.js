@@ -2,20 +2,31 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import { getToken } from './auth/auth';
+import Header from './header/header';
 
 class PrivateRoute extends Component {
   render() {
-    const { component: Component } = this.props;
+    const {
+      component: Component, 
+      render, 
+      children, 
+      ...rest 
+    } = this.props;
     const accessToken = getToken();
 
     return (
       <Route
+        {...rest}
         render={
-          () => {
+          (...props) => {
             if (accessToken) {
-              return (
-                <Component />
-              );
+              if (Component) {
+                return <Component />;
+              }
+              if (render) {
+                return render(...props);
+              } 
+              return children;
             }
             return (
               <Redirect
