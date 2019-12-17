@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import {
   Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink 
 } from 'reactstrap';
+import { withRouter } from "react-router-dom";
 import * as userService from '../../services/api/user.service';
+import CLogo from '../common/CLogo';
+import imgLogo from '../../rsc/images/favicon.ico';
 
-const Header = (props) => {
+const Header = ({history}) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const toggle = () => setDropdownOpen(!dropdownOpen);
@@ -17,14 +20,14 @@ const Header = (props) => {
         </NavItem>
         <Dropdown nav isOpen={dropdownOpen} toggle={toggle}>
           <DropdownToggle nav>
-            <img style={{width: "40px", height: "40px"}} src="favicon.ico" alt="Logo"/>
+            <CLogo width="40px" height="40px" src={imgLogo} alt="Profile image"/>
           </DropdownToggle>
           <DropdownMenu>
             <DropdownItem
               onClick={
                 (ev) => userService.logout().then(
                   () => {
-                    this.props.history.push('/');
+                    history.push('/');
                   }
                 )
               }
@@ -38,4 +41,4 @@ const Header = (props) => {
   );
 };
 
-export default Header;
+export default withRouter(Header);

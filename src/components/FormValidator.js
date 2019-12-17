@@ -41,12 +41,26 @@ class FormValidator {
   valid() {
     const validation = {};
 
-    this.validations.map(rule => (
-      validation[rule.field] = { isInvalid: false, message: '' }
-    ));
+    this.validations.map(rule => {
+      validation[rule.field] = { isInvalid: false, message: '' };
+    });
 
     return { isValid: true, ...validation };
   }
 }
 
 export default FormValidator;
+
+export const fieldValidator = (rules, value) => rules.map(
+  rule => {
+    const args = rule.args || [];
+    const validation_method = (typeof rule.method === 'string') ? validator[rule.method] : rule.method;
+    const validValue = validation_method(value, ...args);
+    if (
+      validValue !== rule.validWhen
+    ) {
+      return {isInvalid: true, message: rule.message};
+    }
+    return {isInvalid: false, message: ''};
+  }
+);
