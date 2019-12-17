@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import {
-  Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink 
+  Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink
 } from 'reactstrap';
-import { withRouter } from "react-router-dom";
+import { withRouter, NavLink as NavLinkRRD} from "react-router-dom";
 import * as userService from '../../services/api/user.service';
 import CLogo from '../common/CLogo';
 import imgLogo from '../../rsc/images/favicon.ico';
+import '../../rsc/css/header.css';
 
 const Header = ({history}) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -16,7 +17,9 @@ const Header = ({history}) => {
     <div className="pt-2 pr-4 pl-2">
       <Nav tabs>
         <NavItem className="ml-auto">
-          <NavLink href="/" active>Home</NavLink>
+          <NavLinkRRD to="/user/balance" className="nav-link">
+            Balance
+          </NavLinkRRD>
         </NavItem>
         <Dropdown nav isOpen={dropdownOpen} toggle={toggle}>
           <DropdownToggle nav>

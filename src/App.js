@@ -21,7 +21,7 @@ class App extends Component {
     return (
       <div className="App">
         <Switch>
-          <PrivateRoute path="/user/tokens">
+          <PrivateRoute path="/user/balance">
             <LoggedLayout>
               <UserTokens/>
             </LoggedLayout>
