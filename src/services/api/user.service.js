@@ -1,4 +1,4 @@
-import { unAuthAxiosCall, authAxiosCall} from './axiosCall';
+import { unAuthAxiosCall } from './axiosCall';
 import { deleteToken } from '../../components/auth/auth'; 
 
 export const login = async (email, password) => unAuthAxiosCall(
@@ -29,26 +29,38 @@ export const register = async (user) => unAuthAxiosCall(
     ),
   }
 );
-   
 
-export function resetPasswordWithToken(user, passwordResetToken) {
-  return unAuthAxiosCall(`/reset-password/${passwordResetToken}`, {
+export const forgotPassword = (email) => unAuthAxiosCall(
+  '/user/forgot_password',
+  {
     method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    accepts: 'application/json',
+    body: JSON.stringify(
+      {
+        email,
+        url: 'reset_password?token='
+      }
+    )
+  }
+);
+
+export const forgotPasswordConfirm = async (user, token) => (
+  unAuthAxiosCall('/user/forgot_password_confirm', {
+    method: 'POST',
     body: JSON.stringify({
-      newPassword: user.newPassword
+      password: user.newPassword,
+      token
     })
-  });
-}
+  })
+);
 
 export function logout() {
-  return authAxiosCall(
-    '/logout',
-    {
-      method: 'POST',
-    }
-  ).then(() => {
-    deleteToken();
-  });
+  deleteToken();
+  // return authAxiosCall(
+  //   '/logout',
+  //   {
+  //     method: 'POST',
+  //   }
+  // ).then(() => {
+  //   deleteToken();
+  // });
 }

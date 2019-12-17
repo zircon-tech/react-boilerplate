@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { withRouter, Link} from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import Loader from '../Loader';

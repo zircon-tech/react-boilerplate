@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import Loader from '../Loader';
 import * as userService from '../../services/api/user.service';
 import FormValidator from '../FormValidator';
+import { setToken } from './auth';
 
 const passwordMatch = (confirmation, state) => (state.newPassword === confirmation);
 
@@ -70,91 +71,100 @@ class ResetPassword extends Component {
         }
       });
     }
-
-    handleSubmit = () => {
-      this.loading = this.submitted = true;
-      const validation = this.validator.validate(this.state.user);
-      this.setState({ validation});
-
-      if (validation.isValid) {
-        userService.resetPasswordWithToken(this.state.user, this.props.token).then(
-          () => this.props.history.push('/login')
-        ).catch(
-          (error) => this.setState({
-            // error: (error instanceof ClientError) ? error.message : 'Internal Error'
-          })
-        );
-      } 
+    
+    getTokenParamFromUrl = () => {
+      const query = new URLSearchParams(this.props.location.search);
+      return query.get('token');
     }
 
+    handleSubmit = () => {
+      this.loading = true;
+      const token = this.getTokenParamFromUrl();
+      this.setState(
+        state => {
+          const validation = this.validator.validate(state.user);
+          if (validation.isValid) {
+            userService.forgotPasswordConfirm(state.user, token)
+              .then(
+                (response) => {
+                  alert("The password was changed successfully!");
+                  setToken(response.data.token);
+                  this.props.history.push('/home');
+                }
+              ).catch(
+                (error) => this.setState({
+                // error: (error instanceof ClientError) ? error.message : 'Internal Error'
+                })
+              );
+          }
+          return { 
+            validation 
+          };
+        }
+      );
+      this.submitted = true;
+    }
+    
     render() {
       const validation = this.submitted ?                      
         this.validator.validate(this.state.user) :
         this.state.validation;
       return (
         this.state.loading ? <Loader/> : (
-          <section className="container-fluid h-100 py-4 px-4 px-md-5 py-md-5">
-            <div className="row justify-content-sm-center mt-4 mb-5">
-              <div className="col-sm-8 col-md-5 col-lg-4 bg-light rounded p-5 text-center">
-                <h2 className="mb-4"><b>Recover Password</b></h2>
-                <div className="pt-4 mb-4">
+          <>
+            {
+              this.state.error && (
+                <div className="form-group alert-danger">{this.state.error}</div>
+              )
+            }
 
-                  {
-                    this.state.error && (
-                      <div className="form-group alert-danger">{this.state.error}</div>
-                    )
-                  }
-
-                  <div className="form-group">
-                    <input
-                      type="password"
-                      name="newPassword"
-                      value={this.state.user.newPassword}
-                      maxLength="20"
-                      onChange={this.handleChange}
-                      className={
-                        classnames(
-                          'form-control py-2',
-                          {
-                            'is-invalid': validation.newPassword.isInvalid 
-                          }
-                        )
-                      }
-                      placeholder="Password"
-                    />
-                    <span className="text-muted">{validation.newPassword.message}</span>
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="password"
-                      name="reNewPassword"
-                      value={this.state.user.reNewPassword}
-                      maxLength="20"
-                      onChange={this.handleChange}
-                      className={
-                        classnames(
-                          'form-control py-2',
-                          {
-                            'is-invalid': validation.reNewPassword.isInvalid 
-                          }
-                        )
-                      }
-                      placeholder="Confirm Password"/>
-                    <span className="text-muted">{validation.reNewPassword.message}</span>
-                  </div>
-                  <div className="pt-1">
-                    <button
-                      type="button"
-                      className="btn btn-primary"
-                      onClick={this.handleSubmit}
-                    >
-                                        Reset
-                    </button>
-                  </div>
-                </div>
-              </div>
+            <div className="form-group">
+              <input
+                type="password"
+                name="newPassword"
+                value={this.state.user.newPassword}
+                maxLength="20"
+                onChange={this.handleChange}
+                className={
+                  classnames(
+                    'form-control py-2',
+                    {
+                      'is-invalid': validation.newPassword.isInvalid 
+                    }
+                  )
+                }
+                placeholder="Password"
+              />
+              <span className="text-muted">{validation.newPassword.message}</span>
             </div>
-          </section>
+            <div className="form-group">
+              <input
+                type="password"
+                name="reNewPassword"
+                value={this.state.user.reNewPassword}
+                maxLength="20"
+                onChange={this.handleChange}
+                className={
+                  classnames(
+                    'form-control py-2',
+                    {
+                      'is-invalid': validation.reNewPassword.isInvalid 
+                    }
+                  )
+                }
+                placeholder="Confirm Password"/>
+              <span className="text-muted">{validation.reNewPassword.message}</span>
+            </div>
+            <div className="mt-5">
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={this.handleSubmit}
+              >
+                                  Send
+              </button>
+            </div>
+          </>
         )
       );
     }
