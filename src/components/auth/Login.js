@@ -147,8 +147,8 @@ const Login = ({ loading, doLogin, history }) => {
           <span className="text-danger">{error}</span>
         </div>
         <div>
-          {/* <button type="button" onClick={handleCheckLogin} name="Login" className="btn btn-primary">Login</button> */}
-          <button type="button" onClick={() => setRegisterModal(true)} name="Login" className="btn btn-primary">test</button> 
+          <button type="button" onClick={handleCheckLogin} name="Login" className="btn btn-primary">Login</button>
+          {/* <button type="button" onClick={() => setRegisterModal(true)} name="Login" className="btn btn-primary">test</button>  */}
         </div>
         
         <GoogleLogin

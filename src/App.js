@@ -10,20 +10,30 @@ import './App.css';
 import Register from './components/auth/Register';
 import ForgotPassword from './components/auth/ForgotPassword';
 import ResetPassword from './components/auth/ResetPassword';
-import Header from './components/header/header';
 import AuthLayout from './components/auth/AuthLayout';
 import PrivateRoute from './components/PrivateRoute';
-
+import UserTokens from './components/UserTokens';
+import LoggedLayout from './components/LoggedLayout';
+import Home from './components/Home';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
         <Switch>
+          <PrivateRoute path="/user/tokens">
+            <LoggedLayout>
+              <UserTokens/>
+            </LoggedLayout>
+          </PrivateRoute>
+          <PrivateRoute path="/home">
+            <LoggedLayout>
+              <Home/>
+            </LoggedLayout>
+          </PrivateRoute>
           <Route path="/user">
             <Register />
           </Route>
-          <PrivateRoute path="/home" component={Header} />
           <Route exact path="/forgot_password">
             <AuthLayout
               header="Recover Password"
