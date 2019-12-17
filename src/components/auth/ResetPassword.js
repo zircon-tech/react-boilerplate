@@ -3,6 +3,7 @@ import {withRouter} from 'react-router-dom';
 import classnames from 'classnames';
 import Loader from '../Loader';
 import * as userService from '../../services/api/user.service';
+import * as validations from '../../lib/utils/validations';
 import FormValidator from '../FormValidator';
 import { setToken } from './auth';
 
@@ -19,16 +20,30 @@ const form_rules = new FormValidator([
   { 
     field: 'newPassword', 
     method: 'matches',
-    args: [/^.*(?=.{6,}).*$/], 
+    args: validations.contain8Character(), 
     validWhen: true, 
-    message: 'Password must have at least 6 characters.'
+    message: 'Password must have at least 8 characters.'
   },
   { 
     field: 'newPassword', 
     method: 'matches',
-    args: [/^.*(?=.*[A-Z]).*$/], 
+    args: validations.contain1UpperCase(), 
     validWhen: true, 
     message: 'Password must have at least one uppercase.'
+  },
+  { 
+    field: 'newPassword', 
+    method: 'matches',
+    args: validations.contain1LowerCase(), 
+    validWhen: true, 
+    message: 'Password must have at least one lowercase.'
+  },
+  { 
+    field: 'newPassword', 
+    method: 'matches',
+    args: validations.contain1NumberOrSpecialChar(), 
+    validWhen: true, 
+    message: 'Password must have at least one number or special char.'
   },
   { 
     field: 'reNewPassword', 
@@ -88,7 +103,7 @@ class ResetPassword extends Component {
               .then(
                 (response) => {
                   alert("The password was changed successfully!");
-                  setToken(response.data.token);
+                  setToken(response.data.jwtToken);
                   this.props.history.push('/home');
                 }
               ).catch(

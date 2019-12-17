@@ -55,6 +55,7 @@ export const forgotPasswordConfirm = async (user, token) => (
 
 export function logout() {
   deleteToken();
+  return Promise.resolve(true);
   // return authAxiosCall(
   //   '/logout',
   //   {
@@ -63,4 +64,17 @@ export function logout() {
   // ).then(() => {
   //   deleteToken();
   // });
+}
+
+export function loginWGoogle(accessToken, user) {
+  return unAuthAxiosCall(
+    '/user/google_account',
+    {
+      method: "POST",
+      body: JSON.stringify({
+        token: accessToken,
+        user: user || {}
+      })
+    }
+  );
 }
