@@ -17,8 +17,8 @@ const Header = ({history}) => {
     <div className="pt-2 pr-4 pl-2">
       <Nav tabs>
         <NavItem className="ml-auto">
-          <NavLinkRRD to="/user/balance" className="nav-link">
-            Balance
+          <NavLinkRRD to="/home" className="nav-link">
+            Home
           </NavLinkRRD>
         </NavItem>
         <Dropdown nav isOpen={dropdownOpen} toggle={toggle}>

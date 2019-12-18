@@ -12,7 +12,6 @@ import ForgotPassword from './components/auth/ForgotPassword';
 import ResetPassword from './components/auth/ResetPassword';
 import AuthLayout from './components/auth/AuthLayout';
 import PrivateRoute from './components/PrivateRoute';
-import UserTokens from './components/UserTokens';
 import LoggedLayout from './components/LoggedLayout';
 import Home from './components/Home';
 
@@ -21,11 +20,6 @@ class App extends Component {
     return (
       <div className="App">
         <Switch>
-          <PrivateRoute path="/user/balance">
-            <LoggedLayout>
-              <UserTokens/>
-            </LoggedLayout>
-          </PrivateRoute>
           <PrivateRoute path="/home">
             <LoggedLayout>
               <Home/>
