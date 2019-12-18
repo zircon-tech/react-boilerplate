@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import doLoginAction from '../../redux/actions';
 import LoginForm from './LoginForm';
+import doLoginAction from '../../redux/actions/login';
 
 
 class LoginContainer extends Component {
