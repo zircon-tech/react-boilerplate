@@ -4,7 +4,7 @@ import {
 } from 'reactstrap';
 import classnames from 'classnames';
 import CInput from '../common/CInput';
-import { fieldValidator } from '../FormValidator';
+import { fieldValidator } from '../../lib/utils/FormValidator';
 
 
 const RegisterModal = (props) => {

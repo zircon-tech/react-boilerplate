@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from "react-router-dom";
 import classnames from 'classnames';
-import FormValidator from '../FormValidator';
-import * as userService from '../../services/api/user.service';
+import FormValidator from '../../lib/utils/FormValidator';
+import * as userService from '../../services/api/userService';
 import * as validations from '../../lib/utils/validations';
 
 

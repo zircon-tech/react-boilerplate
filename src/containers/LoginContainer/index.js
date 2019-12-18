@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import doLoginAction from '../../redux/actions';
-import Login from '../../components/auth/Login';
+import LoginForm from './LoginForm';
 
 
 class LoginContainer extends Component {
   render() {
     return (
     // this.props.loading ? <Loader/> :
-      <Login
+      <LoginForm
         doLogin={this.props.doLogin}
         loading={this.props.loading}
       />

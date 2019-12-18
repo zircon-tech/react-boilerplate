@@ -3,12 +3,12 @@ import { withRouter } from "react-router-dom";
 import GoogleLogin from 'react-google-login';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import Loader from '../Loader';
-import FormValidator from '../FormValidator';
-import { setToken } from './auth';
+import Loader from '../../components/Loader';
+import FormValidator from '../../lib/utils/FormValidator';
+import { setToken } from '../../lib/utils/auth';
 import constants from '../../lib/utils/constants';
-import * as userService from '../../services/api/user.service';
-import RegisterModal from './RegisterModal';
+import * as userService from '../../services/api/userService';
+import RegisterModal from '../../components/RegisterModal';
 
 
 const rules = [
@@ -46,7 +46,7 @@ const useValidatedField = (initialState) => {
   ];
 };
 
-const Login = ({ loading, doLogin, history }) => {
+const LoginForm = ({ loading, doLogin, history }) => {
   const [error, setError] = useState('');
   const [data, setData] = useState('');
   const [validation, credentials, setCredentials] = useValidatedField({email: '', password: ''});
@@ -195,8 +195,8 @@ const Login = ({ loading, doLogin, history }) => {
   );
 };
 
-Login.propTypes = {
+LoginForm.propTypes = {
   loading: PropTypes.bool.isRequired,
   doLogin: PropTypes.func.isRequired
 };
-export default withRouter(Login);
+export default withRouter(LoginForm);

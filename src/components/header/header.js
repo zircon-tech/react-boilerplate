@@ -3,7 +3,7 @@ import {
   Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink
 } from 'reactstrap';
 import { withRouter, NavLink as NavLinkRRD} from "react-router-dom";
-import * as userService from '../../services/api/user.service';
+import * as userService from '../../services/api/userService';
 import CLogo from '../common/CLogo';
 import imgLogo from '../../rsc/images/favicon.ico';
 import '../../rsc/css/header.css';

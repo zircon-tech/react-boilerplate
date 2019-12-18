@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
-import { getToken } from './auth/auth';
+import { getToken } from '../lib/utils/auth';
 
 class PrivateRoute extends Component {
   render() {

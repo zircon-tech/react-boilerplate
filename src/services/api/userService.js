@@ -1,5 +1,5 @@
 import { unAuthAxiosCall } from './axiosCall';
-import { deleteToken } from '../../components/auth/auth'; 
+import { deleteToken } from '../../lib/utils/auth';
 
 export const login = async (email, password) => unAuthAxiosCall(
   '/login',

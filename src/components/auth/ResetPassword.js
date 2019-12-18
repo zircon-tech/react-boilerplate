@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import classnames from 'classnames';
 import Loader from '../Loader';
-import * as userService from '../../services/api/user.service';
+import * as userService from '../../services/api/userService';
 import * as validations from '../../lib/utils/validations';
-import FormValidator from '../FormValidator';
-import { setToken } from './auth';
+import FormValidator from '../../lib/utils/FormValidator';
+import { setToken } from '../../lib/utils/auth';
 
 const passwordMatch = (confirmation, state) => (state.newPassword === confirmation);
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classnames from 'classnames';
-import FormValidator from '../FormValidator';
-import * as userService from '../../services/api/user.service';
+import FormValidator from '../../lib/utils/FormValidator';
+import * as userService from '../../services/api/userService';
 
 const rules = [
   { 
