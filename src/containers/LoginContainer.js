@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import doLoginAction from '../redux/actions';
+import doLoginAction from '../redux/actions/login';
 import Login from '../components/auth/Login';
 
 

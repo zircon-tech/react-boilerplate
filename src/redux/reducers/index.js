@@ -1,16 +1,7 @@
-import { SET_LOADING } from '../actionTypes';
+import { combineReducers } from "redux";
+import login from "./login";
 
-const initialState = {
-  loading: false
-};
 
-export default (state = initialState, action) => {
-  switch (action.type) {
-  case SET_LOADING: 
-    return {
-      ...state, 
-      loading: action.value, 
-    }; 
-  default: return state;
-  }
-};
+export default combineReducers({
+  login,
+});
