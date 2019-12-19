@@ -8,13 +8,13 @@ import {
 } from "react-router-dom";
 
 import PrivateRoute from "../components/PrivateRoute";
-import Register from "../components/auth/Register";
 import ForgotPassword from "../components/auth/ForgotPassword";
 import ResetPassword from "../components/auth/ResetPassword";
 import AuthLayout from "../components/auth/AuthLayout";
 
 import LoginContainer from "../containers/LoginContainer";
 import Home from "../containers/HomeContainer";
+import Register from "../containers/RegisterContainer";
 
 const RouterComponent = () => (
   <Router>
