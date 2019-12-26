@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { withRouter } from "react-router-dom";
 import classnames from 'classnames';
+import memoizeOne from 'memoize-one';
 import FormValidator from '../FormValidator';
+import ClientError from '../../lib/utils/exceptions';
 import * as userService from '../../services/api/user.service';
-import * as validations from '../../lib/utils/validations';
+import { validateFieldPassword } from '../../lib/utils/validations';
+import PasswordValidationBox from '../PasswordValidation/PasswordValidationBox';
 
 
 const passwordMatch = (confirmation, state) => (state.password === confirmation);
@@ -53,34 +56,6 @@ const form_rules = new FormValidator([
     message: 'Password is required.'
   },
   { 
-    field: 'password', 
-    method: 'matches',
-    args: validations.contain8Character(), 
-    validWhen: true, 
-    message: 'Password must have at least 8 characters.'
-  },
-  { 
-    field: 'password', 
-    method: 'matches',
-    args: validations.contain1UpperCase(), 
-    validWhen: true, 
-    message: 'Password must have at least one uppercase.'
-  },
-  { 
-    field: 'password', 
-    method: 'matches',
-    args: validations.contain1LowerCase(), 
-    validWhen: true, 
-    message: 'Password must have at least one lowercase.'
-  },
-  { 
-    field: 'password', 
-    method: 'matches',
-    args: validations.contain1NumberOrSpecialChar(), 
-    validWhen: true, 
-    message: 'Password must have at least one number or special char.'
-  },
-  { 
     field: 'password_confirmation', 
     method: 'isEmpty', 
     validWhen: false, 
@@ -106,10 +81,14 @@ class Register extends Component {
         password: '',
         password_confirmation: '',
         phone_number: '',
+        show: false
       },
       validation: this.validator.valid(),
     };
     this.submitted = false;
+    this.validateFieldPassword = memoizeOne(
+      validateFieldPassword,
+    );
   }
     
     handleSubmit = (event) => {
@@ -117,10 +96,16 @@ class Register extends Component {
       this.setState(
         state => {
           const validation = this.validator.validate(state.user);
-          if (validation.isValid) {
+          const validPass = this.validateFieldPassword(state.user.password);
+          if (validPass && validation.isValid) {
             userService.register(state.user)
               .then(response => {
                 alert("Usuario registrado correctamente!"); // ToDo
+              }).catch((error) => {
+                if ((error instanceof ClientError) && (error.status === 404)) {
+                  return;
+                }
+                throw error;
               });
             this.props.history.push('/login');
           }
@@ -186,17 +171,38 @@ class Register extends Component {
                       <div className="form-group row">
                         <label htmlFor="password" className="col-sm-2 col-form-label">Password</label>
                         <div className="col-sm-10">
-                          <input onChange={this.handleOnChange} maxLength="20" type="password" name="password" className={classnames("form-control", {'is-invalid': validation.password.isInvalid })} placeholder="Password" />
+                          <input 
+                            className={classnames("form-control", {'is-invalid': validation.password.isInvalid })}
+                            maxLength="20" 
+                            name="password" 
+                            onChange={this.handleOnChange} 
+                            onFocus={() => this.setState({show: true})}                            
+                            type="password" 
+                            placeholder="Password"
+                          />
                           <span className="text-muted">{validation.password.message}</span>
                         </div>
                       </div>
                       <div className="form-group row">
                         <label htmlFor="password_confirmation" className="col-sm-2 col-form-label">Password Confirmation</label>
                         <div className="col-sm-10">
-                          <input onChange={this.handleOnChange} type="password" name="password_confirmation" className={classnames("form-control", {'is-invalid': validation.password_confirmation.isInvalid })} placeholder="Password Confirmation" />
+                          <input 
+                            className={classnames("form-control", {'is-invalid': validation.password_confirmation.isInvalid })} 
+                            onChange={this.handleOnChange} 
+                            placeholder="Password Confirmation"
+                            type="password" name="password_confirmation"
+                          />
                           <span className="text-muted">{validation.password_confirmation.message}</span>
                         </div>
                       </div>
+                      {
+                        this.state.show ? (
+                          <PasswordValidationBox
+                            password={this.state.user.password}
+                            rePassword={this.state.user.password_confirmation}
+                          />
+                        ) : null
+                      }
                       <div className="row mt-5">
                         <div className="col-lg-6 text-right">
                           <button

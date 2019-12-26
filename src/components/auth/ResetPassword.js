@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import classnames from 'classnames';
+import memoizeOne from 'memoize-one';
 import Loader from '../Loader';
+import { checkValidationToken } from '../../services/api/tokens.service';
 import * as userService from '../../services/api/user.service';
-import * as validations from '../../lib/utils/validations';
-import FormValidator from '../FormValidator';
+import { validateFieldPassword } from '../../lib/utils/validations';
 import { setToken } from './auth';
+import FormValidator from '../FormValidator';
+import PasswordValidationBox from '../PasswordValidation/PasswordValidationBox';
 
 const passwordMatch = (confirmation, state) => (state.newPassword === confirmation);
 
@@ -16,34 +19,6 @@ const form_rules = new FormValidator([
     method: 'isEmpty', 
     validWhen: false, 
     message: 'Password is required.'
-  },
-  { 
-    field: 'newPassword', 
-    method: 'matches',
-    args: validations.contain8Character(), 
-    validWhen: true, 
-    message: 'Password must have at least 8 characters.'
-  },
-  { 
-    field: 'newPassword', 
-    method: 'matches',
-    args: validations.contain1UpperCase(), 
-    validWhen: true, 
-    message: 'Password must have at least one uppercase.'
-  },
-  { 
-    field: 'newPassword', 
-    method: 'matches',
-    args: validations.contain1LowerCase(), 
-    validWhen: true, 
-    message: 'Password must have at least one lowercase.'
-  },
-  { 
-    field: 'newPassword', 
-    method: 'matches',
-    args: validations.contain1NumberOrSpecialChar(), 
-    validWhen: true, 
-    message: 'Password must have at least one number or special char.'
   },
   { 
     field: 'reNewPassword', 
@@ -70,10 +45,25 @@ class ResetPassword extends Component {
         reNewPassword: '',
       },
       error: null,
-      validation: this.validator.valid()
+      validation: this.validator.valid(),
+      tokenValidation: false,
+      loading: false,
+      show: false
     };
     this.submitted = false;
-    this.loading = false;
+    this.validateFieldPassword = memoizeOne(
+      validateFieldPassword,
+    );
+  }
+  
+  componentDidMount() {
+    // this.setState({
+    //   tokenValidation: true,
+    //   loading: false
+    // });
+    // checkValidationToken.then(
+    //   response => <h2>"Token already used"</h2>
+    // );
   }
 
     handleChange = (event) => {
@@ -86,6 +76,7 @@ class ResetPassword extends Component {
         }
       });
     }
+
     
     getTokenParamFromUrl = () => {
       const query = new URLSearchParams(this.props.location.search);
@@ -93,21 +84,24 @@ class ResetPassword extends Component {
     }
 
     handleSubmit = () => {
-      this.loading = true;
+      this.setState({loading: true});
       const token = this.getTokenParamFromUrl();
       this.setState(
         state => {
           const validation = this.validator.validate(state.user);
-          if (validation.isValid) {
+          const validPass = this.validateFieldPassword(state.user.newPassword);
+          if (validPass && validation.isValid) {
             userService.forgotPasswordConfirm(state.user, token)
               .then(
                 (response) => {
+                  this.setState({loading: false});
                   alert("The password was changed successfully!");
                   setToken(response.data.jwtToken);
                   this.props.history.push('/home');
                 }
               ).catch(
                 (error) => this.setState({
+                  loading: false,
                 // error: (error instanceof ClientError) ? error.message : 'Internal Error'
                 })
               );
@@ -121,11 +115,17 @@ class ResetPassword extends Component {
     }
     
     render() {
+      if (this.state.tokenValidation) {
+        return (
+          this.state.loading ? 
+            <Loader/> : <h5 className="text-danger">This link has alreay been used.</h5>
+        );
+      }
       const validation = this.submitted ?                      
         this.validator.validate(this.state.user) :
         this.state.validation;
       return (
-        this.state.loading ? <Loader/> : (
+        this.stateloading ? <Loader/> : (
           <>
             {
               this.state.error && (
@@ -140,6 +140,7 @@ class ResetPassword extends Component {
                 value={this.state.user.newPassword}
                 maxLength="20"
                 onChange={this.handleChange}
+                onFocus={() => this.setState({show: true})}
                 className={
                   classnames(
                     'form-control py-2',
@@ -170,6 +171,14 @@ class ResetPassword extends Component {
                 placeholder="Confirm Password"/>
               <span className="text-muted">{validation.reNewPassword.message}</span>
             </div>
+            {
+              this.state.show ? (
+                <PasswordValidationBox
+                  password={this.state.user.newPassword}
+                  rePassword={this.state.user.reNewPassword}
+                />
+              ) : null
+            }
             <div className="mt-5">
               <button
                 type="button"
