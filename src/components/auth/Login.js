@@ -9,6 +9,7 @@ import { setToken } from './auth';
 import constants from '../../lib/utils/constants';
 import * as userService from '../../services/api/user.service';
 import RegisterModal from './RegisterModal';
+import ClientError from '../../lib/utils/exceptions';
 
 
 const rules = [

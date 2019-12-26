@@ -3,12 +3,13 @@ import {withRouter} from 'react-router-dom';
 import classnames from 'classnames';
 import memoizeOne from 'memoize-one';
 import Loader from '../Loader';
-import { checkValidationToken } from '../../services/api/tokens.service';
 import * as userService from '../../services/api/user.service';
 import { validateFieldPassword } from '../../lib/utils/validations';
 import { setToken } from './auth';
 import FormValidator from '../FormValidator';
 import PasswordValidationBox from '../PasswordValidation/PasswordValidationBox';
+import ClientError from '../../lib/utils/exceptions';
+
 
 const passwordMatch = (confirmation, state) => (state.newPassword === confirmation);
 
@@ -57,13 +58,22 @@ class ResetPassword extends Component {
   }
   
   componentDidMount() {
-    // this.setState({
-    //   tokenValidation: true,
-    //   loading: false
-    // });
-    // checkValidationToken.then(
-    //   response => <h2>"Token already used"</h2>
-    // );
+    this.setState({loading: true});
+    const token = this.getTokenParamFromUrl();
+    userService.checkValidationToken(token).then(
+      () => {
+        this.setState({
+          tokenValidation: true,
+          loading: false
+        });
+      }
+    ).catch((error) => {
+      this.setState({
+        tokenValidation: false,
+        loading: false,
+        // error: (error instanceof ClientError) ? error.message : "Internal Error"
+      });
+    });
   }
 
     handleChange = (event) => {
@@ -115,7 +125,7 @@ class ResetPassword extends Component {
     }
     
     render() {
-      if (this.state.tokenValidation) {
+      if (!this.state.tokenValidation) {
         return (
           this.state.loading ? 
             <Loader/> : <h5 className="text-danger">This link has alreay been used.</h5>

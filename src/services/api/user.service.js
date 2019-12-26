@@ -1,4 +1,4 @@
-import { unAuthAxiosCall } from './axiosCall';
+import { unAuthAxiosCall, authAxiosCall } from './axiosCall';
 import { deleteToken } from '../../components/auth/auth'; 
 
 export const login = async (email, password) => unAuthAxiosCall(
@@ -78,3 +78,13 @@ export function loginWGoogle(accessToken, user) {
     }
   );
 }
+
+export const checkValidationToken = async (token) => authAxiosCall(
+  '/user/forgot_password_checktoken',
+  {
+    method: 'POST',
+    body: JSON.stringify({
+      token
+    })
+  }
+);
