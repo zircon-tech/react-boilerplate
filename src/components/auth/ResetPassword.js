@@ -135,7 +135,7 @@ class ResetPassword extends Component {
         this.validator.validate(this.state.user) :
         this.state.validation;
       return (
-        this.stateloading ? <Loader/> : (
+        this.state.loading ? <Loader/> : (
           <>
             {
               this.state.error && (
