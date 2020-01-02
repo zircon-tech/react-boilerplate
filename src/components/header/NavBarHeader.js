@@ -5,7 +5,7 @@ import {
 import { withRouter, NavLink as NavLinkRRD} from "react-router-dom";
 import * as userService from '../../services/api/userService';
 import CLogo from '../common/CLogo';
-import imgLogo from '../../rsc/images/favicon.ico';
+import profileImg from '../../rsc/images/profileimages.png';
 import '../../rsc/css/header.css';
 
 const Header = ({history}) => {
@@ -23,7 +23,7 @@ const Header = ({history}) => {
         </NavItem>
         <Dropdown nav isOpen={dropdownOpen} toggle={toggle}>
           <DropdownToggle nav>
-            <CLogo width="40px" height="40px" src={imgLogo} alt="Profile image"/>
+            <CLogo width="40px" height="40px" src={profileImg} alt="Profile image"/>
           </DropdownToggle>
           <DropdownMenu>
             <DropdownItem

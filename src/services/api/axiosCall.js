@@ -7,8 +7,9 @@ const axiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json', 
     Accept: 'application/json', 
-    api_key: API_KEY,
-  }
+    'x-api-key': API_KEY,
+  },
+  validateStatus: (status) => status < 400,
 });
 
 const axiosCall = async (url, {query, ...requestOptions}) => {
@@ -16,21 +17,19 @@ const axiosCall = async (url, {query, ...requestOptions}) => {
     const response = await axiosInstance({
       method: requestOptions.method, 
       url: encodeQueryParams(`${API_URL}${url}`, query),
-      data: requestOptions.body 
+      data: requestOptions.body,
+      headers: requestOptions.headers,
     });
     
     if (response.status >= 200 && response.status < 400) {
       return response;
     } 
-    if (response.status < 500) {
-      return response.json().then(
-        (jsonData) => {
-          throw new ClientError(jsonData.errors[0].msg, jsonData.errors[0].args, response.status);
-        }
-      );
-    } 
   } catch (error) {
-    throw new Error("Internal error");
+    if (error.response.status < 500) {
+      throw new ClientError(error.response.data.message, error.response.status);
+    } else {
+      throw new Error("Internal error");
+    }
   }
 };
 
@@ -55,7 +54,7 @@ export const authAxiosCall = async (url, requestOptions) => {
       ...requestOptions,
       headers: {
         ...requestOptions.headers,
-        Authorization: getToken(),
+        Authorization: `Bearer ${getToken()}`,
       },
     },
   );
