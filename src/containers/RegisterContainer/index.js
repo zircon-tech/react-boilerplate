@@ -1,85 +1,17 @@
 import React, { Component } from 'react';
 import { withRouter } from "react-router-dom";
 import classnames from 'classnames';
-<<<<<<< HEAD:src/containers/RegisterContainer/index.js
-import * as userService from '../../services/api/userService';
-import * as validations from '../../lib/utils/validations';
-
-
-=======
 import memoizeOne from 'memoize-one';
-import FormValidator from '../FormValidator';
 import ClientError from '../../lib/utils/exceptions';
-import * as userService from '../../services/api/user.service';
-import { validateFieldPassword } from '../../lib/utils/validations';
-import PasswordValidationBox from '../PasswordValidation/PasswordValidationBox';
+import * as userService from '../../services/api/userService';
+import { validateFieldPassword, form_rules } from '../../lib/utils/validations';
+import PasswordValidationBox from '../../components/PasswordValidation/PasswordValidationBox';
 
 
-const passwordMatch = (confirmation, state) => (state.password === confirmation);
-
-const form_rules = new FormValidator([
-  { 
-    field: 'first_name', 
-    method: 'isEmpty', 
-    validWhen: false, 
-    message: 'First Name is required.' 
-  },
-  { 
-    field: 'last_name', 
-    method: 'isEmpty', 
-    validWhen: false, 
-    message: 'Last Name is required.' 
-  },
-  { 
-    field: 'email', 
-    method: 'isEmpty', 
-    validWhen: false, 
-    message: 'Email is required.' 
-  },
-  { 
-    field: 'email',
-    method: 'isEmail', 
-    validWhen: true, 
-    message: 'That is not a valid email.'
-  },
-  { 
-    field: 'phone_number', 
-    method: 'isEmpty', 
-    validWhen: false, 
-    message: 'Please provide a phone number.'
-  },
-  {
-    field: 'phone_number', 
-    method: 'matches',
-    args: [/^\(?\d\d\d\)? ?\d\d\d\d\d\d$/],
-    validWhen: true, 
-    message: 'That is not a valid phone number.'
-  },
-  { 
-    field: 'password', 
-    method: 'isEmpty', 
-    validWhen: false, 
-    message: 'Password is required.'
-  },
-  { 
-    field: 'password_confirmation', 
-    method: 'isEmpty', 
-    validWhen: false, 
-    message: 'Password confirmation is required.'
-  },
-  { 
-    field: 'password_confirmation', 
-    method: passwordMatch, 
-    validWhen: true, 
-    message: 'Password and password confirmation do not match.'
-  }
-]);
-
->>>>>>> remotes/origin/dev:src/components/auth/Register.js
 class Register extends Component {
   constructor() {
     super(); 
-    this.validator = validations.form_rules;
+    this.validator = form_rules;
     this.state = { 
       user: {
         first_name: '',

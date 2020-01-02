@@ -1,18 +1,14 @@
-<<<<<<< HEAD
 import FormValidator from "./FormValidator";
 
 const passwordMatch = (confirmation, state) => state.password === confirmation;
 
-export function contain1UpperCase() {
-  return [/^.*(?=.*[A-Z]).*$/];
-=======
+
 export function validateFieldPassword(password) {
   if (password) {
     const passwordValid = password.match(/^.*(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[!?@#$%^&*_0-9]).*$/);
     return passwordValid;
   } 
   return null;
->>>>>>> remotes/origin/dev
 }
 
 export function contain1UpperCase(password) {
@@ -130,5 +126,23 @@ export const form_rules = new FormValidator([
     method: passwordMatch,
     validWhen: true,
     message: "Password and password confirmation do not match."
+  },
+  { 
+    field: 'newPassword', 
+    method: 'isEmpty', 
+    validWhen: false, 
+    message: 'Password is required.'
+  },
+  { 
+    field: 'reNewPassword', 
+    method: 'isEmpty', 
+    validWhen: false, 
+    message: 'Password confirmation is required.'
+  },
+  { 
+    field: 'reNewPassword', 
+    method: passwordMatch, 
+    validWhen: true, 
+    message: 'Password and password confirmation do not match.'
   }
 ]);

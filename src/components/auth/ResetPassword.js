@@ -4,33 +4,9 @@ import classnames from 'classnames';
 import memoizeOne from 'memoize-one';
 import Loader from '../Loader';
 import * as userService from '../../services/api/userService';
-import * as validations from '../../lib/utils/validations';
-import FormValidator from '../../lib/utils/FormValidator';
 import { setToken } from '../../lib/utils/auth';
-
-const passwordMatch = (confirmation, state) => (state.newPassword === confirmation);
-
-const form_rules = new FormValidator([
-    
-  { 
-    field: 'newPassword', 
-    method: 'isEmpty', 
-    validWhen: false, 
-    message: 'Password is required.'
-  },
-  { 
-    field: 'reNewPassword', 
-    method: 'isEmpty', 
-    validWhen: false, 
-    message: 'Password confirmation is required.'
-  },
-  { 
-    field: 'reNewPassword', 
-    method: passwordMatch, 
-    validWhen: true, 
-    message: 'Password and password confirmation do not match.'
-  }
-]);
+import { validateFieldPassword, form_rules } from '../../lib/utils/validations';
+import PasswordValidationBox from '../PasswordValidation/PasswordValidationBox';
 
 
 class ResetPassword extends Component {
