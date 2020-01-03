@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
 import classnames from 'classnames';
-<<<<<<< HEAD
-import FormValidator from '../../lib/utils/FormValidator';
-import * as userService from '../../services/api/userService';
-=======
-import FormValidator from '../FormValidator';
-import * as userService from '../../services/api/user.service';
-import Loader from '../Loader';
->>>>>>> remotes/origin/dev
+import FormValidator from '../../Lib/Utils/formValidator';
+import * as userService from '../../Services/Api/userService';
+import Loader from '../loader';
 
 const rules = [
   { 

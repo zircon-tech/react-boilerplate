@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classnames from 'classnames';
-import * as userService from '../../services/api/userService';
-import * as validations from '../../lib/utils/validations';
+import * as userService from '../../Services/Api/userService';
+import * as validations from '../../Lib/Utils/validations';
 
 const useValidatedField = (initialState) => {
   const validator = validations.form_rules;

@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from './header/NavBarHeader';
+import Header from './Header';
 
 const LoggedLayout = ({children}) => (
   <>

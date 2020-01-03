@@ -3,12 +3,12 @@ import { withRouter } from "react-router-dom";
 import GoogleLogin from 'react-google-login';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import Loader from '../../components/Loader';
-import FormValidator from '../../lib/utils/FormValidator';
-import { setToken } from '../../lib/utils/auth';
-import constants from '../../lib/utils/constants';
-import * as userService from '../../services/api/userService';
-import RegisterModal from '../../components/RegisterModal';
+import Loader from '../../Components/loader';
+import FormValidator from '../../Lib/Utils/formValidator';
+import { setToken } from '../../Lib/Utils/auth';
+import constants from '../../Lib/Utils/constants';
+import * as userService from '../../Services/Api/userService';
+import RegisterModal from '../../Components/RegisterModal';
 
 
 const rules = [

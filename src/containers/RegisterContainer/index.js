@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { withRouter } from "react-router-dom";
 import classnames from 'classnames';
 import memoizeOne from 'memoize-one';
-import ClientError from '../../lib/utils/exceptions';
-import * as userService from '../../services/api/userService';
-import { validateFieldPassword, form_rules } from '../../lib/utils/validations';
-import PasswordValidationBox from '../../components/PasswordValidation/PasswordValidationBox';
+import ClientError from '../../Lib/Utils/exceptions';
+import * as userService from '../../Services/Api/userService';
+import { validateFieldPassword, form_rules } from '../../Lib/Utils/validations';
+import PasswordValidationBox from '../../Components/PasswordValidation/passwordValidationBox';
 
 
 class Register extends Component {

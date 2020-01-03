@@ -1,4 +1,4 @@
-import FormValidator from "./FormValidator";
+import FormValidator from "./formValidator";
 
 const passwordMatch = (confirmation, state) => state.password === confirmation;
 

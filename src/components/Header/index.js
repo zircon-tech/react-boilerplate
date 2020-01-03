@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import {
-  Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink
+  Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu
 } from 'reactstrap';
 import { withRouter, NavLink as NavLinkRRD} from "react-router-dom";
-import * as userService from '../../services/api/userService';
-import CLogo from '../common/CLogo';
-import profileImg from '../../rsc/images/profileimages.png';
-import '../../rsc/css/header.css';
+import * as userService from '../../Services/Api/userService';
+import CLogo from '../Common/cLogo';
+import profileImg from '../../Rsc/Images/profileimages.png';
+import '../../Rsc/Css/header.css';
 
 const Header = ({history}) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { API_URL, API_KEY, } from '../../config';
-import { getToken } from '../../lib/utils/auth';
-import ClientError from '../../lib/utils/exceptions';
+import { getToken } from '../../Lib/Utils/auth';
+import ClientError from '../../Lib/Utils/exceptions';
 
 const axiosInstance = axios.create({
   headers: {

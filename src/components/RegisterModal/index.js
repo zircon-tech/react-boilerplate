@@ -3,8 +3,8 @@ import {
   Button, Modal, ModalHeader, ModalBody, ModalFooter 
 } from 'reactstrap';
 import classnames from 'classnames';
-import CInput from '../common/CInput';
-import { fieldValidator } from '../../lib/utils/FormValidator';
+import CInput from '../Common/cInput';
+import { fieldValidator } from '../../Lib/Utils/formValidator';
 
 
 const RegisterModal = (props) => {

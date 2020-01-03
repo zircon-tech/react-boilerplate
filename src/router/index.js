@@ -7,14 +7,14 @@ import {
   Redirect
 } from "react-router-dom";
 
-import PrivateRoute from "../components/PrivateRoute";
-import ResetPassword from "../components/auth/ResetPassword";
-import AuthLayout from "../components/auth/AuthLayout";
+import PrivateRoute from "../Components/privateRoute";
+import ResetPassword from "../Components/Auth/resetPassword";
+import AuthLayout from "../Components/Auth/authLayout";
 
-import LoginContainer from "../containers/LoginContainer";
-import Home from "../containers/HomeContainer";
-import Register from "../containers/RegisterContainer";
-import ForgotPassword from "../containers/ForgotContainer";
+import LoginContainer from "../Containers/LoginContainer";
+import Home from "../Containers/HomeContainer";
+import Register from "../Containers/RegisterContainer";
+import ForgotPassword from "../Containers/ForgotContainer";
 
 const RouterComponent = () => (
   <Router>
@@ -33,16 +33,16 @@ const RouterComponent = () => (
       <Route exact path="/login">
         <AuthLayout
           header="Login"
-          links={
+          links={(
             <>
               <p className="mt-5">
-                Register{" "}
+              Register{" "}
                 <Link className="text-decoration text-dark" to="/user">
                   <u>Create an account</u>
                 </Link>
               </p>
               <p>
-                Forgot password?{" "}
+              Forgot password?{" "}
                 <Link
                   className="text-decoration text-dark"
                   to="/forgot_password"
@@ -51,7 +51,7 @@ const RouterComponent = () => (
                 </Link>
               </p>
             </>
-          }
+          )}
         >
           <LoginContainer />
         </AuthLayout>

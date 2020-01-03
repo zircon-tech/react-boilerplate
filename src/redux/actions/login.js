@@ -1,5 +1,5 @@
-import actions from '../actionTypes';
-import * as userService from '../../services/api/userService';
+import actions from '../ActionTypes';
+import * as userService from '../../Services/Api/userService';
 
 const setLoadingAction = (value) => ({
   type: actions.SET_LOADING, value

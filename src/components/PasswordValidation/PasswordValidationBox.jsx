@@ -6,8 +6,8 @@ import {
   contain1UpperCase,
   contain1NumberOrSpecialChar,
   contain8Character,
-} from '../../lib/utils/validations';
-import PasswordValidationField from './PasswordValidationField';
+} from '../../Lib/Utils/validations';
+import PasswordValidationField from './passwordValidationField';
 
 class PasswordValidationBox extends React.PureComponent {
   constructor(props) {

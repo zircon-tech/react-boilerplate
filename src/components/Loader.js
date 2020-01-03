@@ -1,5 +1,5 @@
 import React from 'react';
-import '../rsc/scss/loading.scss';
+import '../Rsc/Scss/loading.scss';
 
 
 const Loader = () => (
