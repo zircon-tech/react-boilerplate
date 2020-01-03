@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classnames from 'classnames';
 import { form_rules } from '../../Lib/Utils/validations';
-import Loader from '../../Components/loader';
+import Loader from '../../Components/Common/loader';
 
 
 const useValidatedField = (initialState) => {

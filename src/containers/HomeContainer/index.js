@@ -1,6 +1,6 @@
 import React from "react";
 import Welcome from "./welcome";
-import LoggedLayout from "../../Components/loggedLayout";
+import LoggedLayout from "../../Components/Layouts/loggedLayout";
 
 const Home = () => (
   <LoggedLayout>

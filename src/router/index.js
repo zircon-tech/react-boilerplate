@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 
 import PrivateRoute from "../Components/privateRoute";
-import AuthLayout from "../Components/Auth/authLayout";
+import AuthLayout from "../Components/Layouts/authLayout";
 import LoginContainer from "../Containers/LoginContainer";
 import Home from "../Containers/HomeContainer";
 import Register from "../Containers/RegisterContainer";

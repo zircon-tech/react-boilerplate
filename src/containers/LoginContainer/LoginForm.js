@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 import GoogleLogin from 'react-google-login';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import Loader from '../../Components/loader';
+import Loader from '../../Components/Common/loader';
 import { form_rules } from '../../Lib/Utils/validations';
 import { setToken } from '../../Lib/Utils/auth';
 import constants from '../../Lib/Utils/constants';

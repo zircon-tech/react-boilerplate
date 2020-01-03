@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import classnames from 'classnames';
 import memoizeOne from 'memoize-one';
-import Loader from '../../Components/loader';
+import Loader from '../../Components/Common/loader';
 import { validateFieldPassword, form_rules } from '../../Lib/Utils/validations';
 import PasswordValidationBox from '../../Components/PasswordValidation/passwordValidationBox';
 import PasswordInput from '../../Components/Common/passwordInput';
