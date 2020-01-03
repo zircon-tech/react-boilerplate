@@ -31,8 +31,9 @@ class ResetPassword extends Component {
   
   componentDidMount() {
     this.setState({loading: true});
+    const { doCheckValidationToken } = this.props;
     const token = this.getTokenParamFromUrl();
-    this.props.doCheckValidationToken(token).then(
+    doCheckValidationToken(token).then(
       () => {
         this.setState({
           tokenValidation: true,
