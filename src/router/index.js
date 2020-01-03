@@ -11,8 +11,8 @@ import PrivateRoute from "../Components/privateRoute";
 import AuthLayout from "../Components/Auth/authLayout";
 import LoginContainer from "../Containers/LoginContainer";
 import Home from "../Containers/HomeContainer";
-import Register from "../Containers/RegisterContainer/RegisterForm";
-import ForgotPassword from "../Containers/ForgotContainer/forgotPasswordForm";
+import Register from "../Containers/RegisterContainer";
+import ForgotPassword from "../Containers/ForgotContainer";
 import ResetPassword from "../Containers/ResetPasswordContainer";
 
 const RouterComponent = () => (
