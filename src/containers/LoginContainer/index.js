@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {doLogin, doLoginWGoogle } from '../../Redux/Actions/userActions';
-import LoginForm from './loginForm';
+import LoginForm from './LoginForm';
 
 
 class LoginContainer extends Component {
