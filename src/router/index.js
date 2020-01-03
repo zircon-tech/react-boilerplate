@@ -7,7 +7,7 @@ import {
   Redirect
 } from "react-router-dom";
 
-import PrivateRoute from "../Components/privateRoute";
+import PrivateRoute from "../Components/Common/privateRoute";
 import AuthLayout from "../Components/Layouts/authLayout";
 import LoginContainer from "../Containers/LoginContainer";
 import Home from "../Containers/HomeContainer";

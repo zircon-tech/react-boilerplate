@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { getToken } from '../Lib/Utils/auth';
+import { getToken } from '../../Lib/Utils/auth';
 
 class PrivateRoute extends Component {
   render() {
