@@ -1,27 +1,12 @@
 import React, { useState } from 'react';
 import classnames from 'classnames';
-import FormValidator from '../../Lib/Utils/formValidator';
+import form_rules from '../../Lib/Utils/validations';
 import * as userService from '../../Services/Api/userService';
 import Loader from '../loader';
 
-const rules = [
-  { 
-    field: 'email', 
-    method: 'isEmpty', 
-    validWhen: false, 
-    message: 'Email is required.' 
-  },
-  { 
-    field: 'email',
-    method: 'isEmail', 
-    validWhen: true, 
-    message: 'That is not a valid email.'
-  }
-];
-
 
 const useValidatedField = (initialState) => {
-  const validator = new FormValidator(rules);
+  const validator = form_rules;
   const [field, setField] = useState(initialState);
   const [validation, setValidation] = useState(validator.validate(field));
   return [
