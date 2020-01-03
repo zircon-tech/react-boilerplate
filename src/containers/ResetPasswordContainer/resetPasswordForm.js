@@ -2,11 +2,10 @@ import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import classnames from 'classnames';
 import memoizeOne from 'memoize-one';
-import Loader from '../loader';
-import * as userService from '../../Services/Api/userService';
-import { setToken } from '../../Lib/Utils/auth';
+import Loader from '../../Components/loader';
 import { validateFieldPassword, form_rules } from '../../Lib/Utils/validations';
-import PasswordValidationBox from '../PasswordValidation/passwordValidationBox';
+import PasswordValidationBox from '../../Components/PasswordValidation/passwordValidationBox';
+import PasswordInput from '../../Components/Common/passwordInput';
 
 
 class ResetPassword extends Component {
@@ -33,18 +32,17 @@ class ResetPassword extends Component {
   componentDidMount() {
     this.setState({loading: true});
     const token = this.getTokenParamFromUrl();
-    userService.checkValidationToken(token).then(
+    this.props.doCheckValidationToken(token).then(
       () => {
         this.setState({
           tokenValidation: true,
           loading: false
         });
       }
-    ).catch((error) => {
+    ).catch(() => {
       this.setState({
         tokenValidation: false,
-        loading: false,
-        // error: (error instanceof ClientError) ? error.message : "Internal Error"
+        loading: false
       });
     });
   }
@@ -69,25 +67,13 @@ class ResetPassword extends Component {
     handleSubmit = () => {
       this.setState({loading: true});
       const token = this.getTokenParamFromUrl();
+      const {doResetPassword, history} = this.props;
       this.setState(
         state => {
           const validation = this.validator.validate(state.user);
           const validPass = this.validateFieldPassword(state.user.newPassword);
           if (validPass && validation.isValid) {
-            userService.forgotPasswordConfirm(state.user, token)
-              .then(
-                (response) => {
-                  this.setState({loading: false});
-                  alert("The password was changed successfully!");
-                  setToken(response.data.jwtToken);
-                  this.props.history.push('/home');
-                }
-              ).catch(
-                (error) => this.setState({
-                  loading: false,
-                // error: (error instanceof ClientError) ? error.message : 'Internal Error'
-                })
-              );
+            doResetPassword(state.user, token, history);
           }
           return { 
             validation 
@@ -98,32 +84,34 @@ class ResetPassword extends Component {
     }
     
     render() {
-      if (!this.state.tokenValidation) {
+      const { 
+        tokenValidation, 
+        loading, 
+        user, 
+        error,
+        show
+      } = this.state;
+      if (!tokenValidation) {
         return (
-          this.state.loading ? 
+          loading ? 
             <Loader/> : <h5 className="text-danger">This link has alreay been used.</h5>
         );
       }
       const validation = this.submitted ?                      
-        this.validator.validate(this.state.user) :
+        this.validator.validate(user) :
         this.state.validation;
+      
       return (
-        this.state.loading ? <Loader/> : (
+        loading ? <Loader/> : (
           <>
             {
-              this.state.error && (
-                <div className="form-group alert-danger">{this.state.error}</div>
+              error && (
+                <div className="form-group alert-danger">{error}</div>
               )
             }
 
             <div className="form-group">
-              <input
-                type="password"
-                name="newPassword"
-                value={this.state.user.newPassword}
-                maxLength="20"
-                onChange={this.handleChange}
-                onFocus={() => this.setState({show: true})}
+              <PasswordInput
                 className={
                   classnames(
                     'form-control py-2',
@@ -132,17 +120,17 @@ class ResetPassword extends Component {
                     }
                   )
                 }
+                name="newPassword"
+                maxLength="20"
+                onChange={this.handleChange}
+                onFocus={() => this.setState({show: true})}
                 placeholder="Password"
+                value={user && user.newPassword}
               />
               <span className="text-muted">{validation.newPassword.message}</span>
             </div>
             <div className="form-group">
-              <input
-                type="password"
-                name="reNewPassword"
-                value={this.state.user.reNewPassword}
-                maxLength="20"
-                onChange={this.handleChange}
+              <PasswordInput
                 className={
                   classnames(
                     'form-control py-2',
@@ -151,14 +139,19 @@ class ResetPassword extends Component {
                     }
                   )
                 }
-                placeholder="Confirm Password"/>
+                name="reNewPassword"
+                maxLength="20"
+                onChange={this.handleChange}
+                placeholder="Confirm Password"
+                value={user && user.reNewPassword}
+              />
               <span className="text-muted">{validation.reNewPassword.message}</span>
             </div>
             {
-              this.state.show ? (
+              show ? (
                 <PasswordValidationBox
-                  password={this.state.user.newPassword}
-                  rePassword={this.state.user.reNewPassword}
+                  password={user && user.newPassword}
+                  rePassword={user && user.reNewPassword}
                 />
               ) : null
             }

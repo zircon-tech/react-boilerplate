@@ -4,36 +4,15 @@ import GoogleLogin from 'react-google-login';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import Loader from '../../Components/loader';
-import FormValidator from '../../Lib/Utils/formValidator';
+import { form_rules } from '../../Lib/Utils/validations';
 import { setToken } from '../../Lib/Utils/auth';
 import constants from '../../Lib/Utils/constants';
-import * as userService from '../../Services/Api/userService';
 import RegisterModal from '../../Components/RegisterModal';
+import PasswordInput from '../../Components/Common/passwordInput';
 
-
-const rules = [
-  { 
-    field: 'email', 
-    method: 'isEmpty', 
-    validWhen: false, 
-    message: 'Email is required.' 
-  },
-  { 
-    field: 'email',
-    method: 'isEmail', 
-    validWhen: true, 
-    message: 'That is not a valid email.'
-  },
-  { 
-    field: 'password', 
-    method: 'isEmpty', 
-    validWhen: false, 
-    message: 'Password is required.'
-  },
-];
 
 const useValidatedField = (initialState) => {
-  const validator = new FormValidator(rules);
+  const validator = form_rules;
   const [credentials, setCredentials] = useState(initialState);
   const [validation, setValidation] = useState(validator.validate(credentials));
   return [
@@ -46,13 +25,19 @@ const useValidatedField = (initialState) => {
   ];
 };
 
-const LoginForm = ({ loading, doLogin, history }) => {
+const LoginForm = ({ 
+  loading, 
+  doLogin, 
+  doLoginWGoogle, 
+  history 
+}) => {
   const [error, setError] = useState('');
   const [data, setData] = useState('');
   const [validation, credentials, setCredentials] = useValidatedField({email: '', password: ''});
   const [submmited, setSubmitted] = useState(false);
   const [registerModal, setRegisterModal] = useState(false);
   const [googleToken, setGoogleToken] = useState('');
+  const [hidden, setHidden] = useState(true);
   
   
   useEffect(() => {
@@ -61,14 +46,10 @@ const LoginForm = ({ loading, doLogin, history }) => {
 
   const handleCheckLogin = async () => {
     setSubmitted(true);
-        
     if (validation.isValid) {
-      try {
-        const response = await doLogin(credentials.email, credentials.password);
-        setToken(response.data.jwtToken);
+      const response = await doLogin(credentials.email, credentials.password);
+      if (response) {
         history.push('/home');
-      } catch (Error) {
-        setError('The user or password was incorrect!, please try again.');
       }
     }
   };
@@ -86,19 +67,12 @@ const LoginForm = ({ loading, doLogin, history }) => {
   };
 
   const onRegisterModalSubmit = (profile) => {
-    userService.loginWGoogle(
+    doLoginWGoogle(
       googleToken,
       profile
     ).then(
       (apiResponse) => {
         callToLoginRegisterWithGoogle(apiResponse);
-      }
-    ).catch(
-      (apiResponseError) => {
-        console.log(apiResponseError);
-        // this.setState({
-        //  error: (error instanceof ClientError) ? error.message : "Internal Error"
-        // });
       }
     );
   };
@@ -129,7 +103,7 @@ const LoginForm = ({ loading, doLogin, history }) => {
           <span className="text-muted">{submmited && validation.email.message}</span>
         </div>
         <div className="form-group">
-          <input 
+          <PasswordInput 
             className={classnames("form-control", {'is-invalid': submmited && validation.password.isInvalid})}
             name="password"
             onChange={
@@ -138,7 +112,6 @@ const LoginForm = ({ loading, doLogin, history }) => {
               } 
             } 
             placeholder="Password"
-            type="password"
             value={credentials.password}
           />
           <span className="text-muted">{submmited && validation.password.message}</span>
@@ -148,7 +121,6 @@ const LoginForm = ({ loading, doLogin, history }) => {
         </div>
         <div>
           <button type="button" onClick={handleCheckLogin} name="Login" className="btn btn-primary">Login</button>
-          {/* <button type="button" onClick={() => setRegisterModal(true)} name="Login" className="btn btn-primary">test</button>  */}
         </div>
         
         <GoogleLogin
@@ -156,18 +128,11 @@ const LoginForm = ({ loading, doLogin, history }) => {
           onSuccess={
             (googleResponse) => {
               setGoogleToken(googleResponse.tokenId);
-              userService.loginWGoogle(
+              doLoginWGoogle(
                 googleResponse.tokenId,
               ).then(
                 (apiResponse) => {
                   callToLoginRegisterWithGoogle(apiResponse);
-                }
-              ).catch(
-                (apiResponseError) => {
-                  console.log(apiResponseError);
-                  // this.setState({
-                  //  error: (error instanceof ClientError) ? error.message : "Internal Error"
-                  // });
                 }
               );
             }
@@ -185,7 +150,7 @@ const LoginForm = ({ loading, doLogin, history }) => {
                 onClick={onClick}
               >
                 <i className="fab fa-google text-g-plus fa-fw mr-3"/>
-                  Log In with Google
+                  Login with Google
               </button>
             )
           }

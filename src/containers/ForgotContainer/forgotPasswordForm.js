@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import classnames from 'classnames';
-import form_rules from '../../Lib/Utils/validations';
-import * as userService from '../../Services/Api/userService';
-import Loader from '../loader';
+import { form_rules } from '../../Lib/Utils/validations';
+import Loader from '../../Components/loader';
 
 
 const useValidatedField = (initialState) => {
@@ -19,27 +18,17 @@ const useValidatedField = (initialState) => {
   ];
 };
 
-export default () => {
+const ForgotPassword = ({doForgotPassword, loading}) => {
   const [validation, {email}, setEmail] = useValidatedField({email: ''});
   const [submmited, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const handleForgotPassword = () => {
     setSubmitted(true);
     if (validation.isValid) {
-      setLoading(true);
-      userService.forgotPassword(email)
-        .then(() => {
-          setLoading(false);
-          alert("The email was sent, please check your mailbox.");
-        })
-        .catch(error => {
-          setLoading(false);
-          // error: (error instanceof ClientError) ? error.message : 'Internal Error'
-        });
+      doForgotPassword(email);
     }
   };
- 
+  
   return (
     loading ? <Loader/> : (
       <>
@@ -68,3 +57,5 @@ export default () => {
     )
   );
 };
+
+export default ForgotPassword;

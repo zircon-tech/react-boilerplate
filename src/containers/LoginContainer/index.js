@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {doLogin, doLoginWGoogle } from '../../Redux/Actions/userActions';
 import LoginForm from './loginForm';
-import doLoginAction from '../../Redux/Actions/login';
 
 
 class LoginContainer extends Component {
@@ -11,17 +11,19 @@ class LoginContainer extends Component {
       <LoginForm
         doLogin={this.props.doLogin}
         loading={this.props.loading}
+        doLoginWGoogle={this.props.doLoginWGoogle}
       />
     );
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  doLogin: (email, password) => dispatch(doLoginAction(email, password))
+  doLogin: (email, password) => dispatch(doLogin(email, password)),
+  doLoginWGoogle: (accessToken, user) => dispatch(doLoginWGoogle(accessToken, user)),
 });
   
 const mapStateToProps = state => ({
-  loading: state.loading
+  loading: state.user.loading
 });
   
 export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);

@@ -1,5 +1,1 @@
-import * as login from './login';
-
-const combined = {...login};
-
-export default combined;
+export const SET_LOADING = Symbol('SET_LOADING');
