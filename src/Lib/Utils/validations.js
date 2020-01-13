@@ -29,7 +29,7 @@ export function contain1LowerCase(password) {
 
 export function contain8Character(password) {
   if (password) {
-    const passwordValid = password.match(/^.*(?=.{8,}).*$/);
+    const passwordValid = password.length >= 8;
     return passwordValid;
   } 
   return null;
