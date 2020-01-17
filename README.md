@@ -20,7 +20,7 @@ Communicates with backend who has node version v9.10.1
 # Npm version
 v6.13.1
 # Structure
-![Structure](Arquitecture.jpg)
+![Structure](Readme/Arquitecture.jpg)
 ## Services
 API calls, push notifications and everything that comes from outside.
 ## Lib
