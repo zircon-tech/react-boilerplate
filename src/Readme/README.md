@@ -15,6 +15,10 @@ This is a React Web Boillerplate with custom components and login function with 
 * [redux-thunk](https://github.com/reduxjs/redux-thunk)
 * [validator](https://github.com/chriso/validator.js)
 
+# Node version
+Communicates with backend who has node version v9.10.1
+# Npm version
+v6.13.1
 # Structure
 ![Structure](Arquitecture.jpg)
 ## Services
