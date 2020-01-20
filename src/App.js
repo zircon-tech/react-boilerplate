@@ -36,13 +36,15 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  alert: state.alert
+  alert: state.alert,
+  modal: state.modal,
 });
 
 const mapDispatchToProps = dispatch => ({
   clearAlerts: () => dispatch(alertActions.clear()),
   doCloseModal: () => dispatch(modalActions.doCloseModal()),
-  cleanModalForm: () => dispatch(modalActions.cleanModalForm())
+  cleanModalForm: () => dispatch(modalActions.cleanModalForm()),
+  doShowModal: (modalProps) => dispatch(modalActions.doShowModal(modalProps))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
