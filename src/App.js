@@ -4,7 +4,6 @@ import Router from "./Router";
 import alertActions from "./Redux/Actions/alertActions";
 import * as modalActions from "./Redux/Actions/modalActions";
 import GenericModal from "./Components/Common/genericModal";
-import types from "./Redux/ActionTypes";
 import "./App.css";
 
 class App extends Component {
