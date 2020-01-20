@@ -1,19 +1,15 @@
-import {
-  SHOW_MODAL,
-  HIDE_MODAL,
-  CLEAN_MODAL,
-} from '../ActionTypes';
+import * as actions from '../ActionTypes';
 
 const showModalAction = (value) => ({
-  type: SHOW_MODAL, value
+  type: actions.SHOW_MODAL, value
 });
 
 const hideModalAction = () => ({
-  type: HIDE_MODAL
+  type: actions.HIDE_MODAL
 });
 
 const cleanModalAction = () => ({
-  type: CLEAN_MODAL,
+  type: actions.CLEAN_MODAL,
 });
 
 export const doShowModal = (modalProps) => dispatch => {
