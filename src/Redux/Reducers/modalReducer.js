@@ -1,8 +1,4 @@
-import {
-  SHOW_MODAL,
-  HIDE_MODAL,
-  CLEAN_MODAL,
-} from '../ActionTypes';
+import types from '../ActionTypes';
 
 const initialState = {
   props: {
@@ -16,7 +12,7 @@ const initialState = {
 
 const modal = (state = initialState, action) => {
   switch (action.type) {
-  case SHOW_MODAL: {
+  case types.SHOW_MODAL: {
     const { value } = action;
     return {
       ...state,
@@ -30,7 +26,7 @@ const modal = (state = initialState, action) => {
       footer: value && value.footer
     };
   }
-  case HIDE_MODAL: {
+  case types.HIDE_MODAL: {
     return {
       ...state,
       props: {
@@ -39,7 +35,7 @@ const modal = (state = initialState, action) => {
       },
     };
   }
-  case CLEAN_MODAL: {
+  case types.CLEAN_MODAL: {
     return {
       ...initialState,
       props: {

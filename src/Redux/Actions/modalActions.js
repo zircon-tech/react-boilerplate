@@ -1,18 +1,19 @@
-import * as actions from '../ActionTypes';
+import types from "../ActionTypes";
 
-const showModalAction = (value) => ({
-  type: actions.SHOW_MODAL, value
+const showModalAction = value => ({
+  type: types.SHOW_MODAL,
+  value
 });
 
 const hideModalAction = () => ({
-  type: actions.HIDE_MODAL
+  type: types.HIDE_MODAL
 });
 
 const cleanModalAction = () => ({
-  type: actions.CLEAN_MODAL,
+  type: types.CLEAN_MODAL,
 });
 
-export const doShowModal = (modalProps) => dispatch => {
+export const doShowModal = modalProps => dispatch => {
   dispatch(showModalAction(modalProps));
 };
 
