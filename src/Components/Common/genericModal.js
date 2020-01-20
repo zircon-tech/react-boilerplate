@@ -19,13 +19,13 @@ export default class GenericModal extends Component {
     return (
       <Modal {...props}>
         <ModalHeader
-          className="justify-content-center border-0"
+          className="justify-content-center"
           toggle={doClose}
           onClosed={cleanModalForm}
         >
-          <div style={{ textAlign: 'center' }}>
+          <span>
             {headerText}
-          </div>
+          </span>
         </ModalHeader>
         <ModalBody>
           <div className="modal-body">
