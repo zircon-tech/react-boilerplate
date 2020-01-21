@@ -54,15 +54,16 @@ export const doRegister = (user) => dispatch => {
   dispatch(setLoadingAction(true));
   return userService.register(user)
     .then(
-      () => {
+      (response) => {
         dispatch(alertActions.success("The user was reigister successfully"));
         dispatch(setLoadingAction(false));
-        return true;
+        return response;
       },
       error => {
         dispatch(setLoadingAction(false));
         const message = (error instanceof ClientError) ? error.message : 'Internal Error';
         dispatch(alertActions.error(message));
+        throw error;
       }
     );
 };

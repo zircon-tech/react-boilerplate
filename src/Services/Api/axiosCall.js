@@ -42,21 +42,15 @@ const encodeQueryParams = (url, query) => {
   return encodeURL;
 };
 
-export const unAuthAxiosCall = async (url, requestOptions) => {
-  const response = await axiosCall(url, requestOptions);
-  return response;
-};
+export const unAuthAxiosCall = (url, requestOptions) => axiosCall(url, requestOptions);
 
-export const authAxiosCall = async (url, requestOptions) => {
-  const response = await axiosCall(
-    url,
-    {
-      ...requestOptions,
-      headers: {
-        ...requestOptions.headers,
-        Authorization: `Bearer ${getToken()}`,
-      },
+export const authAxiosCall = (url, requestOptions) => axiosCall(
+  url,
+  {
+    ...requestOptions,
+    headers: {
+      ...requestOptions.headers,
+      Authorization: `Bearer ${getToken()}`,
     },
-  );
-  return response;
-};
+  },
+);

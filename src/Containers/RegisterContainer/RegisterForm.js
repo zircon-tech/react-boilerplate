@@ -36,18 +36,34 @@ class Register extends Component {
       this.setState(
         state => {
           const validation = this.validator.validate(state.user);
-          const validPass = this.validateFieldPassword(state.user.password);
-          if (validPass && validation.isValid) {
-            doRegister(state.user).then(response => {
-              if (response) {
-                history.push('/home');
-              }
-              this.setState({show: false});
-            });
-          }
           return { 
             validation 
           };
+        },
+        () => {
+          const validPass = this.validateFieldPassword(this.state.user.password);
+          if (validPass && this.state.validation.isValid) {
+            doRegister(this.state.user).then(
+              response => {
+                debugger;
+                if (response) {
+                  history.push('/home');
+                }
+                this.setState({show: false});
+              },
+              error => {
+                debugger;
+                
+                this.setState((state) => ({
+                  user: {
+                    ...state.user,
+                    password: '',
+                    password_confirmation: ''
+                  }
+                }));
+              }
+            );
+          }
         }
       );
       this.submitted = true;
@@ -138,6 +154,7 @@ class Register extends Component {
                           <label htmlFor="password" className="col-sm-2 col-form-label">Password</label>
                           <div className="col-sm-10">
                             <PasswordInput 
+                              value={user.password}
                               className={classnames("form-control", {'is-invalid': validation.password.isInvalid })}
                               maxLength="20" 
                               name="password" 
@@ -152,6 +169,7 @@ class Register extends Component {
                           <label htmlFor="password_confirmation" className="col-sm-2 col-form-label">Password Confirmation</label>
                           <div className="col-sm-10">
                             <PasswordInput 
+                              value={user.password_confirmation}
                               className={classnames("form-control", {'is-invalid': validation.password_confirmation.isInvalid })} 
                               name="password_confirmation"
                               onChange={this.handleOnChange} 
