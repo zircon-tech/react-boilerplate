@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Router from "./Router";
 import alertActions from './Redux/Actions/alertActions';
 import './App.css';
+import './Rsc/Css/theme.css';
 
 const {FACEBOOK_APP_ID} = "constants";
 

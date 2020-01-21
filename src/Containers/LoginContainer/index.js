@@ -5,7 +5,7 @@ import {
   doLoginWGoogle,
   doLoginWFB,
   doLoginWTwitter,
-}  from '../../Redux/Actions/userActions';
+} from '../../Redux/Actions/userActions';
 import LoginForm from './LoginForm';
 
 

@@ -20,13 +20,3 @@
 .App-link {
   color: #09d3ac;
 }
-
-.field-icon {
-  float: right;
-  margin-right: 30px;
-  margin-top: -1.625rem;
-  position: relative;
-  z-index: 2;
-  color: #555;
-  cursor: pointer;
-}
