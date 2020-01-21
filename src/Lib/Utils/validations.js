@@ -88,34 +88,6 @@ export const form_rules = new FormValidator([
     message: "Password is required."
   },
   {
-    field: "password",
-    method: "matches",
-    args: contain8Character(),
-    validWhen: true,
-    message: "Password must have at least 8 characters."
-  },
-  {
-    field: "password",
-    method: "matches",
-    args: contain1UpperCase(),
-    validWhen: true,
-    message: "Password must have at least one uppercase."
-  },
-  {
-    field: "password",
-    method: "matches",
-    args: contain1LowerCase(),
-    validWhen: true,
-    message: "Password must have at least one lowercase."
-  },
-  {
-    field: "password",
-    method: "matches",
-    args: contain1NumberOrSpecialChar(),
-    validWhen: true,
-    message: "Password must have at least one number or special char."
-  },
-  {
     field: "password_confirmation",
     method: "isEmpty",
     validWhen: false,
