@@ -55,7 +55,7 @@ const LoginForm = ({
   const handleCheckLogin = async () => {
     setSubmitted(true);
     if (validation.isValid) {
-      const response = await doLogin(credentials.email, credentials.password);
+      const response = await doLogin(credentials.email, credentials.password).catch(() => {});
       if (response) {
         history.push("/home");
       }

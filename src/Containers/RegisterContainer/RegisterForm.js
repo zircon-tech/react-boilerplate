@@ -45,21 +45,19 @@ class Register extends Component {
           if (validPass && this.state.validation.isValid) {
             doRegister(this.state.user).then(
               response => {
-                debugger;
                 if (response) {
                   history.push('/home');
                 }
                 this.setState({show: false});
               },
               error => {
-                debugger;
-                
                 this.setState((state) => ({
                   user: {
                     ...state.user,
                     password: '',
                     password_confirmation: ''
-                  }
+                  },
+                  show: false
                 }));
               }
             );
