@@ -88,3 +88,36 @@ export const checkValidationToken = async (token) => authAxiosCall(
     })
   }
 );
+
+export function loginWFB(fbResponse, user) {
+  return unAuthAxiosCall(
+    '/auth/facebook/check-token',
+    {
+      method: "POST",
+      body: JSON.stringify({
+        accessToken: fbResponse.accessToken,
+        expiresIn: fbResponse.expiresIn,
+        userId: fbResponse.userId,
+        user: user || {},
+      })
+    }
+  );
+}
+
+export function loginWithTwitter(oauth_token, oauth_verifier, first_name, last_name, email) {
+  return unAuthAxiosCall(
+    '/auth/twitter/access-token',
+    {
+      method: "POST",
+      query: {
+        oauth_token,
+        oauth_verifier,
+      },
+      body: JSON.stringify({
+        first_name,
+        last_name,
+        email,
+      })
+    }
+  );
+}

@@ -114,3 +114,42 @@ export const doCheckValidationToken = (token) => dispatch => {
       }
     );
 };
+export const doLoginWFB = (fbResponse, user) => dispatch => {
+  dispatch(setLoadingAction(true));
+  return userService.loginWFB(fbResponse, user)
+    .then(
+      response => {
+        dispatch(setCurrentUser(response.data.user.first_name));
+        dispatch(setLoadingAction(false));
+        return response;
+      },
+      error => {
+        dispatch(setLoadingAction(false));
+        const message = (error instanceof ClientError) ? error.message : 'Internal Error';
+        dispatch(alertActions.error(message));
+      }
+    );
+}; 
+
+export const doLoginWTwitter = (oauth_token, oauth_verifier, user) => dispatch => {
+  dispatch(setLoadingAction(true));
+  return userService.loginWithTwitter(
+    oauth_token, 
+    oauth_verifier, 
+    user.first_name, 
+    user.last_name, 
+    user.email
+  )
+    .then(
+      response => {
+        dispatch(setCurrentUser(response.data.user.first_name));
+        dispatch(setLoadingAction(false));
+        return response;
+      },
+      error => {
+        dispatch(setLoadingAction(false));
+        const message = (error instanceof ClientError) ? error.message : 'Internal Error';
+        dispatch(alertActions.error(message));
+      }
+    );
+};

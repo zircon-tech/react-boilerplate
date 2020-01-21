@@ -4,7 +4,20 @@ import Router from "./Router";
 import alertActions from './Redux/Actions/alertActions';
 import './App.css';
 
+const {FACEBOOK_APP_ID} = "constants";
+
 class App extends Component {
+  componentDidMount() {
+    if (document.getElementById('facebook-jssdk')) {
+      return;
+    }
+    const script = document.createElement("script");
+    script.id = 'facebook-jssdk';
+    script.src = `https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.1&appId=${FACEBOOK_APP_ID}`;
+    script.async = true;
+    document.body.appendChild(script);
+  }
+
   componentWillUnmount() {
     clearTimeout(this.timeout_number);
   }

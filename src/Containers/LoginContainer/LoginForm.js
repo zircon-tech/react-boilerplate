@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from "react-router-dom";
 import GoogleLogin from 'react-google-login';
+import TwitterLogin from 'react-twitter-auth';
+import FacebookLogin from 'react-facebook-login';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import Loader from '../../Components/Common/loader';
@@ -9,6 +11,8 @@ import { setToken } from '../../Lib/Utils/auth';
 import constants from '../../Lib/Utils/constants';
 import RegisterModal from '../../Components/RegisterModal';
 import PasswordInput from '../../Components/Common/passwordInput';
+import { API_URL } from '../../config';
+import '../../Rsc/Css/login.css';
 
 
 const useValidatedField = (initialState) => {
@@ -29,6 +33,8 @@ const LoginForm = ({
   loading, 
   doLogin, 
   doLoginWGoogle, 
+  doLoginWFB,
+  doLoginWTwitter,
   history 
 }) => {
   const [error, setError] = useState('');
@@ -37,7 +43,6 @@ const LoginForm = ({
   const [submmited, setSubmitted] = useState(false);
   const [registerModal, setRegisterModal] = useState(false);
   const [googleToken, setGoogleToken] = useState('');
-  const [hidden, setHidden] = useState(true);
   
   
   useEffect(() => {
@@ -122,7 +127,77 @@ const LoginForm = ({
         <div>
           <button type="button" onClick={handleCheckLogin} name="Login" className="btn btn-primary">Login</button>
         </div>
-        
+        <TwitterLogin
+          className="btn btn-twit bg-white btn-sm btn-block font-weight-light mb-2 mt-4 py-2"
+          showIcon={false}
+          dialogWidth={600}
+          dialogHeight={400}
+          loginUrl={API_URL + constants.twitterAuthenticationURL}
+          requestTokenUrl={API_URL + constants.twitterRequestTokenURL}
+          onFailure={
+            (error) => {
+              // this.setState({error: error.message});
+            }
+          }
+          onSuccess={
+            (twResponse) => {
+              twResponse.json().then(
+                (apiResponse) => {
+                  // this.afterApiInvokeTw(apiResponse);
+                }
+              ).catch(
+                (error) => {
+                  // this.setState({
+                  //   error: (error instanceof ClientError) ? error.message : 'Internal Error'
+                  // });
+                }
+              );
+            }
+          }
+        >
+          <i className="fab fa-twitter fa-fw mr-3"/> 
+          Log In with Twitter
+        </TwitterLogin>
+        {/* <FacebookLogin
+          appId={constants.FACEBOOK_APP_ID}
+          autoLoad={false}
+          redirectUri={API_URL}
+          disableMobileRedirect
+          onClick={
+            (
+              <button
+                type="button"
+                className="btn btn-face btn-sm btn-block font-weight-light mb-2 py-2"
+              >
+                <i className="fab fa-facebook-f fa-fw mr-3"/> 
+                Sign Up with Facebook
+              </button>
+            )
+          }
+          callback={
+            (fbResponse) => {
+              if (fbResponse) {
+                doLoginWFB(
+                  fbResponse,
+                  null
+                ).then(
+                  (apiResponse) => {
+                    // this.afterApiInvokeFB(fbResponse, apiResponse);
+                  }
+                ).catch(
+                  (error) => {
+                    // this.setState({
+                    //   error: (error instanceof ClientError) ? error.message : 'Internal Error'
+                    // });
+                  }
+                );
+              }
+            }
+          }
+          cssClass="btn btn-face bg-white btn-sm btn-block font-weight-light mb-2 py-2"
+          textButton="Log In with Facebook"
+          icon="fab fa-facebook-f fa-fw mr-3"
+        /> */}
         <GoogleLogin
           clientId={constants.GOOGLE_AUTH_CLIENT_ID}
           onSuccess={
@@ -146,7 +221,7 @@ const LoginForm = ({
             ({onClick}) => (
               <button
                 type="button"
-                className="btn bg-white text-dark btn-sm btn-block font-weight-light mt-4 py-2"
+                className="btn btn-google bg-white text-dark btn-sm btn-block font-weight-light py-2" 
                 onClick={onClick}
               >
                 <i className="fab fa-google text-g-plus fa-fw mr-3"/>
@@ -162,6 +237,9 @@ const LoginForm = ({
 
 LoginForm.propTypes = {
   loading: PropTypes.bool.isRequired,
-  doLogin: PropTypes.func.isRequired
+  doLogin: PropTypes.func.isRequired,
+  doLoginWGoogle: PropTypes.func.isRequired,
+  doLoginWFB: PropTypes.func.isRequired,
+  doLoginWTwitter: PropTypes.func.isRequired,
 };
 export default withRouter(LoginForm);
