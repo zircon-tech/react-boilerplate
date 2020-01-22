@@ -1,18 +1,18 @@
-import alertConstants from '../ActionTypes/alertActionsTypes';
+import types from '../ActionTypes';
 
 const alert = (state = {}, action) => {
   switch (action.type) {
-  case alertConstants.SUCCESS:
+  case types.ALERT_SUCCESS:
     return {
       type: 'alert-success',
       message: action.message
     };
-  case alertConstants.ERROR:
+  case types.ALERT_ERROR:
     return {
       type: 'alert-danger',
       message: action.message
     };
-  case alertConstants.CLEAR:
+  case types.ALERT_CLEAR:
     return {};
   default:
     return state;

@@ -1,16 +1,15 @@
-import { SET_LOADING } from '../ActionTypes';
-import SET_CURRENT_USER from '../ActionTypes/userActionsTypes';
+import types from '../ActionTypes';
 import * as userService from '../../Services/Api/userService';
 import alertActions from './alertActions';
 import ClientError from '../../Lib/Utils/exceptions';
 import { setToken } from '../../Lib/Utils/auth';
 
 const setLoadingAction = (value) => ({
-  type: SET_LOADING, value
+  type: types.SET_LOADING, value
 });
 
 const setCurrentUser = (value) => ({
-  type: SET_CURRENT_USER, value
+  type: types.SET_CURRENT_USER, value
 });
 
 
