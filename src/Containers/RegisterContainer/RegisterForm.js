@@ -12,7 +12,7 @@ class Register extends Component {
   constructor() {
     super();
     this.validator = form_rules;
-    this.state = { 
+    this.state = {
       user: {
         first_name: '',
         last_name: '',
@@ -29,43 +29,43 @@ class Register extends Component {
       validateFieldPassword,
     );
   }
-    
-    handleSubmit = (event) => {
-      const {history, doRegister} = this.props;
-      event.preventDefault();
-      this.setState(
-        state => {
-          const validation = this.validator.validate(state.user);
-          return { 
-            validation 
-          };
-        },
-        () => {
-          const validPass = this.validateFieldPassword(this.state.user.password);
-          if (validPass && this.state.validation.isValid) {
-            doRegister(this.state.user).then(
-              response => {
-                if (response) {
-                  history.push('/home');
-                }
-                this.setState({show: false});
-              },
-              error => {
-                this.setState((state) => ({
-                  user: {
-                    ...state.user,
-                    password: '',
-                    password_confirmation: ''
-                  },
-                  show: false
-                }));
+
+  handleSubmit = (event) => {
+    const {history, doRegister} = this.props;
+    event.preventDefault();
+    this.setState(
+      state => {
+        const validation = this.validator.validate(state.user);
+        return {
+          validation
+        };
+      },
+      () => {
+        const validPass = this.validateFieldPassword(this.state.user.password);
+        if (validPass && this.state.validation.isValid) {
+          doRegister(this.state.user).then(
+            response => {
+              if (response) {
+                history.push('/home');
               }
-            );
-          }
+              this.setState({show: false});
+            },
+            error => {
+              this.setState((state) => ({
+                user: {
+                  ...state.user,
+                  password: '',
+                  password_confirmation: ''
+                },
+                show: false
+              }));
+            }
+          );
         }
-      );
-      this.submitted = true;
-    }
+      }
+    );
+    this.submitted = true;
+  }
 
     handleOnChange = (e) => {
       const {name, value} = e.target;
@@ -80,7 +80,7 @@ class Register extends Component {
     render() {
       const {user, show} = this.state;
       const {loading, history} = this.props;
-      const validation = this.submitted ?                      
+      const validation = this.submitted ?
         this.validator.validate(user) :
         this.state.validation;
       return (
@@ -96,12 +96,12 @@ class Register extends Component {
                         <div className="form-group row">
                           <label htmlFor="first_name" className="col-sm-2 col-form-label">First Name</label>
                           <div className="col-sm-10">
-                            <input 
-                              className={classnames("form-control", {'is-invalid': validation.first_name.isInvalid })} 
-                              name="first_name" 
-                              onChange={this.handleOnChange} 
-                              placeholder="First Name" 
-                              type="text" 
+                            <input
+                              className={classnames("form-control", {'is-invalid': validation.first_name.isInvalid })}
+                              name="first_name"
+                              onChange={this.handleOnChange}
+                              placeholder="First Name"
+                              type="text"
                               value={user && user.first_name}
                             />
                             <span className="text-muted">{validation.first_name.message}</span>
@@ -110,12 +110,12 @@ class Register extends Component {
                         <div className="form-group row">
                           <label htmlFor="last_name" className="col-sm-2 col-form-label">Last Name</label>
                           <div className="col-sm-10">
-                            <input 
-                              className={classnames("form-control", {'is-invalid': validation.last_name.isInvalid })} 
-                              onChange={this.handleOnChange} 
-                              placeholder="Last Name" 
-                              type="text" name="last_name" 
-                              value={user && user.last_name} 
+                            <input
+                              className={classnames("form-control", {'is-invalid': validation.last_name.isInvalid })}
+                              onChange={this.handleOnChange}
+                              placeholder="Last Name"
+                              type="text" name="last_name"
+                              value={user && user.last_name}
                             />
                             <span className="text-muted">{validation.last_name.message}</span>
                           </div>
@@ -123,13 +123,13 @@ class Register extends Component {
                         <div className="form-group row">
                           <label htmlFor="phone_number" className="col-sm-2 col-form-label">Celphone</label>
                           <div className="col-sm-10">
-                            <input 
+                            <input
                               className={classnames("form-control", {'is-invalid': validation.phone_number.isInvalid })}
-                              name="phone_number" 
-                              onChange={this.handleOnChange} 
-                              placeholder="xxx-xxxxxx" 
-                              type="text" 
-                              value={user && user.phone_number} 
+                              name="phone_number"
+                              onChange={this.handleOnChange}
+                              placeholder="xxx-xxxxxx"
+                              type="text"
+                              value={user && user.phone_number}
                             />
                             <span className="text-muted">{validation.phone_number.message}</span>
                           </div>
@@ -137,13 +137,13 @@ class Register extends Component {
                         <div className="form-group row">
                           <label htmlFor="email" className="col-sm-2 col-form-label">Email</label>
                           <div className="col-sm-10">
-                            <input 
-                              className={classnames("form-control", {'is-invalid': validation.email.isInvalid })} 
-                              name="email" 
-                              onChange={this.handleOnChange} 
-                              placeholder="Email" 
-                              type="text" 
-                              value={user && user.email} 
+                            <input
+                              className={classnames("form-control", {'is-invalid': validation.email.isInvalid })}
+                              name="email"
+                              onChange={this.handleOnChange}
+                              placeholder="Email"
+                              type="text"
+                              value={user && user.email}
                             />
                             <span className="text-muted">{validation.email.message}</span>
                           </div>
@@ -151,13 +151,13 @@ class Register extends Component {
                         <div className="form-group row">
                           <label htmlFor="password" className="col-sm-2 col-form-label">Password</label>
                           <div className="col-sm-10">
-                            <PasswordInput 
+                            <PasswordInput
                               value={user.password}
                               className={classnames("form-control", {'is-invalid': validation.password.isInvalid })}
-                              maxLength="20" 
-                              name="password" 
-                              onChange={this.handleOnChange} 
-                              onFocus={() => this.setState({show: true})}                        
+                              maxLength="20"
+                              name="password"
+                              onChange={this.handleOnChange}
+                              onFocus={() => this.setState({show: true})}
                               placeholder="Password"
                             />
                             <span className="text-muted">{validation.password.message}</span>
@@ -166,11 +166,11 @@ class Register extends Component {
                         <div className="form-group row">
                           <label htmlFor="password_confirmation" className="col-sm-2 col-form-label">Password Confirmation</label>
                           <div className="col-sm-10">
-                            <PasswordInput 
+                            <PasswordInput
                               value={user.password_confirmation}
-                              className={classnames("form-control", {'is-invalid': validation.password_confirmation.isInvalid })} 
+                              className={classnames("form-control", {'is-invalid': validation.password_confirmation.isInvalid })}
                               name="password_confirmation"
-                              onChange={this.handleOnChange} 
+                              onChange={this.handleOnChange}
                               placeholder="Password Confirmation"
                             />
                             <span className="text-muted">{validation.password_confirmation.message}</span>
@@ -196,7 +196,7 @@ class Register extends Component {
                           </div>
                           <div className="col-lg-6 text-left">
                             <button type="submit" className="btn btn-primary">Sing Up</button>
-                          </div>                            
+                          </div>
                         </div>
                       </form>
                     </div>
