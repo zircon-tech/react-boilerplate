@@ -37,7 +37,7 @@ const encodeQueryParams = (url, query) => {
   const encodeURL = new URL(url);
   // ToDo: Have to agree how to encode null
   if (query) {
-    Object.entries(query).forEach(([k, v]) => url.searchParams.append(k, v));
+    Object.entries(query).forEach(([k, v]) => encodeURL.searchParams.append(k, v));
   }
   return encodeURL;
 };
