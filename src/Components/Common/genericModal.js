@@ -17,11 +17,13 @@ export default class GenericModal extends Component {
       cleanModalForm,
     } = this.props;
     return (
-      <Modal {...props}>
+      <Modal 
+        {...props} 
+        toggle={doClose} 
+        onClosed={cleanModalForm}
+      >
         <ModalHeader
           className="justify-content-center"
-          toggle={doClose}
-          onClosed={cleanModalForm}
         >
           <span>
             {headerText}
