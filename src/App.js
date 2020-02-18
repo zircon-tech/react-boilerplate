@@ -26,7 +26,11 @@ class App extends Component {
   }
 
   render() {
-    const { alert, doCloseModal, cleanModalForm, modal } = this.props;
+    const {
+      alert, 
+      doCloseModal, 
+      cleanModalForm, modal 
+    } = this.props;
     this.timeout_number =
       alert.message &&
       setTimeout(() => {
@@ -34,16 +38,17 @@ class App extends Component {
       }, 5000);
 
     return (
-      <div className="App">
-        <GenericModal
-          doClose={doCloseModal}
-          cleanModalForm={cleanModalForm}
-          {...modal}
-        />
+      <div className="app">
         {alert.message && (
           <div className={`alert ${alert.type}`}>{alert.message}</div>
         )}
-        <Router />
+        <Router>
+          <GenericModal
+            doClose={doCloseModal}
+            cleanModalForm={cleanModalForm}
+            {...modal}
+          />
+        </Router>
       </div>
     );
   }
