@@ -1,17 +1,9 @@
-import types from '../ActionTypes';
 import * as userService from '../../Services/Api/userService';
 import alertActions from './alertActions';
 import ClientError from '../../Lib/Utils/exceptions';
+import { tap } from '../../Lib/Utils/lang';
 import { setToken } from '../../Lib/Utils/auth';
-
-const setLoadingAction = (value) => ({
-  type: types.SET_LOADING, value
-});
-
-const setCurrentUser = (value) => ({
-  type: types.SET_CURRENT_USER, value
-});
-
+import {setCurrentUser, setLoadingAction, withGlobalActions} from "./globalActions";
 
 export const doLogin = (email, password) => dispatch => {
   dispatch(setLoadingAction(true));
@@ -127,33 +119,3 @@ export const doLoginWTwitter = (oauth_token, oauth_verifier, user) => dispatch =
     },
   );
 };
-
-function withGlobalActions(dispatch, prom, successH = () => {}, errorH = () => {}) {
-  dispatch(setLoadingAction(true));
-  return tap(
-    prom,
-    (...response) => {
-      dispatch(setLoadingAction(false));
-      successH(...response);
-    },
-    (error) => {
-      dispatch(setLoadingAction(false));
-      const message = (error instanceof ClientError) ? error.message : 'Internal Error';
-      dispatch(alertActions.error(message));
-      errorH(error);
-    }
-  );
-}
-
-function tap(prom, successH, errorH) {
-  return prom.then(
-    (response) => {
-      successH(response);
-      return response;
-    },
-    (error) => {
-      errorH(error);
-      throw error;
-    },
-  );
-}

@@ -9,8 +9,8 @@ import PasswordInput from '../../Components/Common/passwordInput';
 
 
 class Register extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.validator = form_rules;
     this.state = {
       user: {

@@ -16,7 +16,7 @@ import Home from "../Containers/HomeContainer";
 import Register from "../Containers/RegisterContainer";
 import AcceptInvitation from "../Containers/AcceptInvitationContainer";
 import SendInvitation from "../Containers/SendInvitationContainer";
-import ForgotPassword from "../Containers/ForgotContainer";
+import ForgotPassword from "../Containers/ForgotPasswordContainer";
 import ResetPassword from "../Containers/ResetPasswordContainer";
 
 const RouterComponent = ({children}) => (
@@ -52,11 +52,11 @@ const RouterComponent = ({children}) => (
       <NotLoggedInRoute path="/user">
         <Register />
       </NotLoggedInRoute>
-      <Route exact path="/forgot_password">
+      <NotLoggedInRoute exact path="/forgot_password">
         <AuthLayout header="Recover Password">
           <ForgotPassword />
         </AuthLayout>
-      </Route>
+      </NotLoggedInRoute>
       <NotLoggedInRoute exact path="/login">
         <AuthLayout
           header="Login"
