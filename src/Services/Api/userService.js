@@ -14,6 +14,23 @@ export const login = async (email, password) => unAuthAxiosCall(
   }
 );
 
+export const registerFromInvitation = async (user, token) => unAuthAxiosCall(
+  '/auth/invitation/accept',
+  {
+    method: 'POST',
+    body: JSON.stringify(
+      {
+        firstName: user.first_name,
+        lastName: user.last_name,
+        email: user.email,
+        password: user.password,
+        token : token,
+        url: 'register?token=',
+      }
+    ),
+  }
+);
+
 export const register = async (user) => unAuthAxiosCall(
   '/user',
   {
@@ -38,6 +55,19 @@ export const forgotPassword = (email) => unAuthAxiosCall(
       {
         email,
         url: 'reset_password?token='
+      }
+    )
+  }
+);
+
+export const sendInvitation = (email) => authAxiosCall(
+  '/auth/invitation/invite',
+  {
+    method: 'POST',
+    body: JSON.stringify(
+      {
+        email,
+        url: 'register?token='
       }
     )
   }
@@ -121,3 +151,10 @@ export function loginWithTwitter(oauth_token, oauth_verifier, first_name, last_n
     }
   );
 }
+
+export const checkInvitationToken = async (token) => authAxiosCall(
+  `/auth/invitation/check/${token}`,
+  {
+    method: 'GET',
+  }
+);

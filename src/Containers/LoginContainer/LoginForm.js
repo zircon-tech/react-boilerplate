@@ -12,8 +12,7 @@ import constants from "../../Lib/Utils/constants";
 import RegisterModal from "../../Components/RegisterModal";
 import PasswordInput from "../../Components/Common/passwordInput";
 import PasswordValidationBox from '../../Components/PasswordValidation/passwordValidationBox';
-import { API_URL } from "../../config";
-import "../../Rsc/Css/login.css";
+import { API_URL, GOOGLE_AUTH_CLIENT_ID, FACEBOOK_APP_ID } from "../../config";
 
 const useValidatedField = initialState => {
   const validator = form_rules;
@@ -172,7 +171,7 @@ const LoginForm = ({
         Log In with Twitter
       </TwitterLogin>
       {/* <FacebookLogin
-          appId={constants.FACEBOOK_APP_ID}
+          appId={FACEBOOK_APP_ID}
           autoLoad={false}
           redirectUri={API_URL}
           disableMobileRedirect
@@ -182,7 +181,7 @@ const LoginForm = ({
                 type="button"
                 className="btn btn-face btn-sm btn-block font-weight-light mb-2 py-2"
               >
-                <i className="fab fa-facebook-f fa-fw mr-3"/> 
+                <i className="fab fa-facebook-f fa-fw mr-3"/>
                 Sign Up with Facebook
               </button>
             )
@@ -212,7 +211,7 @@ const LoginForm = ({
           icon="fab fa-facebook-f fa-fw mr-3"
         /> */}
       <GoogleLogin
-        clientId={constants.GOOGLE_AUTH_CLIENT_ID}
+        clientId={GOOGLE_AUTH_CLIENT_ID}
         onSuccess={googleResponse => {
           setGoogleToken(googleResponse.tokenId);
           doLoginWGoogle(googleResponse.tokenId).then(apiResponse => {

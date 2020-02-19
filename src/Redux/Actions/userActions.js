@@ -29,7 +29,18 @@ export const doLogin = (email, password) => dispatch => {
       dispatch(alertActions.error(message));
     }
   );
-}; 
+};
+
+export const doRegisterFromInvitation = (user, token) => dispatch => {
+  return withGlobalActions(
+    dispatch,
+    userService.registerFromInvitation(user, token),
+    response => {
+      dispatch(alertActions.success("The user was successfully saved!"));
+      setToken(response.data.jwtToken);
+    }
+  );
+};
 
 export const doLoginWGoogle = (accessToken, user) => dispatch => {
   return withGlobalActions(
@@ -39,7 +50,7 @@ export const doLoginWGoogle = (accessToken, user) => dispatch => {
       dispatch(setCurrentUser(response.data.user.first_name));
     }
   );
-}; 
+};
 
 export const doRegister = (user) => dispatch => {
   return withGlobalActions(
@@ -62,6 +73,13 @@ export const doForgotPassword = (email) => dispatch => {
   );
 };
 
+export const doSendInvitation = email => dispatch => {
+  return withGlobalActions(dispatch, userService.sendInvitation(email), () => {
+    dispatch(alertActions.success("The email was sent"));
+    dispatch(setLoadingAction(false));
+  });
+};
+
 export const doResetPassword = (user, token) => dispatch => {
   return withGlobalActions(
     dispatch,
@@ -80,6 +98,10 @@ export const doCheckValidationToken = (token) => dispatch => {
   );
 };
 
+export const doCheckInvitationToken = token => dispatch => {
+  return withGlobalActions(dispatch, userService.checkInvitationToken(token));
+};
+
 export const doLoginWFB = (fbResponse, user) => dispatch => {
   return withGlobalActions(
     dispatch,
@@ -88,16 +110,16 @@ export const doLoginWFB = (fbResponse, user) => dispatch => {
       dispatch(setCurrentUser(response.data.user.first_name));
     }
   );
-}; 
+};
 
 export const doLoginWTwitter = (oauth_token, oauth_verifier, user) => dispatch => {
   return withGlobalActions(
-    dispatch, 
+    dispatch,
     userService.loginWithTwitter(
-      oauth_token, 
-      oauth_verifier, 
-      user.first_name, 
-      user.last_name, 
+      oauth_token,
+      oauth_verifier,
+      user.first_name,
+      user.last_name,
       user.email
     ),
     (response) => {
@@ -108,7 +130,7 @@ export const doLoginWTwitter = (oauth_token, oauth_verifier, user) => dispatch =
 
 function withGlobalActions(dispatch, prom, successH = () => {}, errorH = () => {}) {
   dispatch(setLoadingAction(true));
-  return tap( 
+  return tap(
     prom,
     (...response) => {
       dispatch(setLoadingAction(false));

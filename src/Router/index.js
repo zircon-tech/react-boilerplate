@@ -8,10 +8,14 @@ import {
 } from "react-router-dom";
 
 import PrivateRoute from "../Components/Common/privateRoute";
+import NotLoggedInRoute from "../Components/Common/notLoggedInRoute";
 import AuthLayout from "../Components/Layouts/authLayout";
+import LoggedLayout from "../Components/Layouts/loggedLayout";
 import LoginContainer from "../Containers/LoginContainer";
 import Home from "../Containers/HomeContainer";
 import Register from "../Containers/RegisterContainer";
+import AcceptInvitation from "../Containers/AcceptInvitationContainer";
+import SendInvitation from "../Containers/SendInvitationContainer";
 import ForgotPassword from "../Containers/ForgotContainer";
 import ResetPassword from "../Containers/ResetPasswordContainer";
 
@@ -19,17 +23,41 @@ const RouterComponent = ({children}) => (
   <Router>
     <Switch>
       <PrivateRoute path="/home">
-        <Home />
+        <LoggedLayout header="Home">
+          <Home/>
+        </LoggedLayout>
       </PrivateRoute>
-      <Route path="/user">
+      <PrivateRoute path="/send_invitation">
+        <AuthLayout header="Invite User">
+          <SendInvitation />
+        </AuthLayout>
+      </PrivateRoute>
+      <NotLoggedInRoute
+        path="/accept_invitation"
+        render={
+          (props) => {
+            const query = new URLSearchParams(props.location.search);
+            const token = query.get('token');
+            // const token = props.location.match.token;
+            return (
+              <LoggedLayout header="User Invitation">
+                <AcceptInvitation
+                  token={token}
+                />
+              </LoggedLayout>
+            );
+          }
+        }
+      />
+      <NotLoggedInRoute path="/user">
         <Register />
-      </Route>
+      </NotLoggedInRoute>
       <Route exact path="/forgot_password">
         <AuthLayout header="Recover Password">
           <ForgotPassword />
         </AuthLayout>
       </Route>
-      <Route exact path="/login">
+      <NotLoggedInRoute exact path="/login">
         <AuthLayout
           header="Login"
           links={(
@@ -54,12 +82,26 @@ const RouterComponent = ({children}) => (
         >
           <LoginContainer />
         </AuthLayout>
-      </Route>
-      <Route exact path="/reset_password">
-        <AuthLayout header="Recover Password">
-          <ResetPassword />
-        </AuthLayout>
-      </Route>
+      </NotLoggedInRoute>
+      <NotLoggedInRoute
+        exact
+        path="/reset_password"
+        render={
+          (props) => {
+            const query = new URLSearchParams(props.location.search);
+            const token = query.get('token');
+            // const token = props.location.match.token;
+            return (
+              <AuthLayout header="Recover Password">
+                <ResetPassword
+                  token={token}
+                />
+              </AuthLayout>
+            );
+          }
+        }
+      >
+      </NotLoggedInRoute>
       <Route path="/">
         <Redirect to="/home" />
       </Route>
