@@ -46,7 +46,7 @@ export const doRegister = (user) => dispatch => {
     dispatch,
     userService.register(user),
     () => {
-      dispatch(alertActions.success("The user was reigister successfully"));
+      dispatch(alertActions.success("The user was register successfully"));
     }
   );
 };

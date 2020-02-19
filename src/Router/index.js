@@ -15,7 +15,7 @@ import Register from "../Containers/RegisterContainer";
 import ForgotPassword from "../Containers/ForgotContainer";
 import ResetPassword from "../Containers/ResetPasswordContainer";
 
-const RouterComponent = () => (
+const RouterComponent = ({children}) => (
   <Router>
     <Switch>
       <PrivateRoute path="/home">
@@ -64,6 +64,7 @@ const RouterComponent = () => (
         <Redirect to="/home" />
       </Route>
     </Switch>
+    {children}
   </Router>
 );
 
