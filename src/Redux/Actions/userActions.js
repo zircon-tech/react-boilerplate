@@ -1,6 +1,6 @@
 import * as userService from '../../Services/Api/userService';
 import alertActions from './alertActions';
-import ClientError from '../../Lib/Utils/exceptions';
+import {ClientError} from '../../Lib/Utils/exceptions';
 import { tap } from '../../Lib/Utils/lang';
 import { setToken } from '../../Lib/Utils/auth';
 import {setCurrentUser, setLoadingAction, withGlobalActions} from "./globalActions";

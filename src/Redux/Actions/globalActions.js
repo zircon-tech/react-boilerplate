@@ -1,6 +1,6 @@
 import types from "../ActionTypes";
 import {tap} from "../../Lib/Utils/lang";
-import ClientError from "../../Lib/Utils/exceptions";
+import {ClientError} from "../../Lib/Utils/exceptions";
 import alertActions from "./alertActions";
 
 export const setLoadingAction = (value) => ({
