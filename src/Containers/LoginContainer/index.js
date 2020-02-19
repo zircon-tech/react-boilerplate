@@ -42,7 +42,7 @@ const mapDispatchToProps = dispatch => ({
 });
   
 const mapStateToProps = state => ({
-  loading: state.loading
+  loading: state.loader.loading
 });
   
 export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);

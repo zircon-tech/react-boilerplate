@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import classnames from 'classnames';
 import memoizeOne from 'memoize-one';
-import Loader from '../../Components/Common/loader';
+import Loader from '../Common/loader';
 import { validateFieldPassword, form_rules } from '../../Lib/Utils/validations';
-import PasswordValidationBox from '../../Components/PasswordValidation/passwordValidationBox';
-import PasswordInput from '../../Components/Common/passwordInput';
+import PasswordValidationBox from '../PasswordValidation/passwordValidationBox';
+import PasswordInput from '../Common/passwordInput';
 
 
 class ResetPassword extends Component {

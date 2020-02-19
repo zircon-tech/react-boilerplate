@@ -20,20 +20,19 @@ class UserProfile extends Component {
   }
   
   componentDidMount() {
-    const user = {
-      email: 'federicoAlvarez710@gmail.com',
-      first_name: 'federico',
-      last_name: 'alvarez'
-    };
-    this.setState({user});
-    // const {getUserProfile, currentUser} = this.props;
-    // getUserProfile(currentUser.email).then(resp => {
-    //   if (resp) {
-    //     console.log({resp});
-    //     const {user} = resp.data.user;
-    //     this.setState({user});
-    //   }
-    // });
+    const {getUserProfile, currentUser} = this.props;
+    
+    getUserProfile(currentUser.email).then(resp => {
+      if (resp && resp.data) {
+        const user = {
+          id: resp.data.id,
+          email: resp.data.email,
+          first_name: resp.data.firstName,
+          last_name: resp.data.lastName
+        };
+        this.setState({user});
+      }
+    });
   }
 
   handleSubmit = (event) => {

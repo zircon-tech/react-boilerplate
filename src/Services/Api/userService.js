@@ -2,7 +2,7 @@ import { unAuthAxiosCall, authAxiosCall } from './axiosCall';
 import { deleteToken } from '../../Lib/Utils/auth';
 
 export const login = async (email, password) => unAuthAxiosCall(
-  '/login',
+  '/auth/login',
   {
     method: 'POST',
     body: JSON.stringify(
@@ -15,7 +15,7 @@ export const login = async (email, password) => unAuthAxiosCall(
 );
 
 export const register = async (user) => unAuthAxiosCall(
-  '/auth',
+  '/auth/register',
   {
     method: 'POST',
     body: JSON.stringify(
@@ -30,20 +30,12 @@ export const register = async (user) => unAuthAxiosCall(
   }
 );
 
-export const getUserProfile = async (email) => {
-  let user = await authAxiosCall(
-    `/users/profile/${email}`,
-    {
-      method: 'GET',
-    }
-  );
-  user = {
-    ...user,
-    first_name: user.firstName,
-    last_name: user.lastName
-  };
-  return user;
-};
+export const getUserProfile = async (email) => authAxiosCall(
+  `/users/profile/${email}`,
+  {
+    method: 'GET',
+  }
+);
 
 export const updateUserProfile = async (user) => authAxiosCall(
   '/users/profile',
@@ -53,6 +45,7 @@ export const updateUserProfile = async (user) => authAxiosCall(
       {
         firstName: user.first_name,
         lastName: user.last_name,
+        email: user.email
       }
     ),
   }

@@ -56,15 +56,14 @@ export const getUserProfile = (email) => dispatch => {
     dispatch,
     userService.getUserProfile(email),
     () => {
-      dispatch(alertActions.success("The profile was updated successfully"));
     }
   );
 };
 
-export const doUpdateUserProfile = (email) => dispatch => {
+export const doUpdateUserProfile = (user) => dispatch => {
   return withGlobalActions(
     dispatch,
-    userService.updateUserProfile(email),
+    userService.updateUserProfile(user),
     () => {
       dispatch(alertActions.success("The profile was updated successfully"));
     }

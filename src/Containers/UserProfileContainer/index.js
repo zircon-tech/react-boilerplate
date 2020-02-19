@@ -30,7 +30,7 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
   currentUser: state.user.currentUser,
-  loading: state.loading
+  loading: state.loader.loading
 });
   
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfileContainer);

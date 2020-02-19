@@ -40,7 +40,7 @@ class App extends Component {
     return (
       <div className="app">
         {alert.message && (
-          <div className={`alert ${alert.type}`}>{alert.message}</div>
+          <div className={`text-center alert ${alert.type}`}>{alert.message}</div>
         )}
         <Router>
           <GenericModal
