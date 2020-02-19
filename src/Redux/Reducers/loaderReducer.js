@@ -1,19 +1,18 @@
 import types from '../ActionTypes';
 
 const initialState = {
-  currentUser: null
+  loading: false
 };
 
-const user = (state = initialState, action) => {
+const loader = (state = initialState, action) => {
   switch (action.type) {
-  case types.SET_CURRENT_USER: 
+  case types.SET_LOADING: 
     return {
       ...state, 
-      currentUser: action.value, 
+      loading: action.value, 
     }; 
-    
   default: return state;
   }
 };
 
-export default user;
+export default loader;

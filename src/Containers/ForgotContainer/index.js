@@ -9,7 +9,6 @@ class ForgotPasswordContainer extends Component {
       <ForgotPasswordForm
         doForgotPassword={this.props.doForgotPassword}
         loading={this.props.loading}
-
       />
     );
   }
@@ -20,7 +19,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => ({
-  loading: state.user.loading
+  loading: state.loading
 });
   
 export default connect(mapStateToProps, mapDispatchToProps)(ForgotPasswordContainer);

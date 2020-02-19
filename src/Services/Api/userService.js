@@ -15,13 +15,13 @@ export const login = async (email, password) => unAuthAxiosCall(
 );
 
 export const register = async (user) => unAuthAxiosCall(
-  '/user',
+  '/auth',
   {
     method: 'POST',
     body: JSON.stringify(
       {
-        first_name: user.first_name,
-        last_name: user.last_name,
+        firstName: user.first_name,
+        lastName: user.last_name,
         cellphone: user.phone_number,
         email: user.email,
         password: user.password,
@@ -30,8 +30,36 @@ export const register = async (user) => unAuthAxiosCall(
   }
 );
 
+export const getUserProfile = async (email) => {
+  let user = await authAxiosCall(
+    `/users/profile/${email}`,
+    {
+      method: 'GET',
+    }
+  );
+  user = {
+    ...user,
+    first_name: user.firstName,
+    last_name: user.lastName
+  };
+  return user;
+};
+
+export const updateUserProfile = async (user) => authAxiosCall(
+  '/users/profile',
+  {
+    method: 'POST',
+    body: JSON.stringify(
+      {
+        firstName: user.first_name,
+        lastName: user.last_name,
+      }
+    ),
+  }
+);
+
 export const forgotPassword = (email) => unAuthAxiosCall(
-  '/user/forgot_password',
+  '/auth/forgot_password',
   {
     method: 'POST',
     body: JSON.stringify(
@@ -44,7 +72,7 @@ export const forgotPassword = (email) => unAuthAxiosCall(
 );
 
 export const forgotPasswordConfirm = async (user, token) => (
-  unAuthAxiosCall('/user/forgot_password_confirm', {
+  unAuthAxiosCall('/auth/forgot_password_confirm', {
     method: 'POST',
     body: JSON.stringify({
       password: user.newPassword,
@@ -68,7 +96,7 @@ export function logout() {
 
 export function loginWGoogle(accessToken, user) {
   return unAuthAxiosCall(
-    '/user/google_account',
+    '/auth/google_account',
     {
       method: "POST",
       body: JSON.stringify({
@@ -80,7 +108,7 @@ export function loginWGoogle(accessToken, user) {
 }
 
 export const checkValidationToken = async (token) => authAxiosCall(
-  '/user/forgot_password_checktoken',
+  '/auth/forgot_password_checktoken',
   {
     method: 'POST',
     body: JSON.stringify({
@@ -114,8 +142,8 @@ export function loginWithTwitter(oauth_token, oauth_verifier, first_name, last_n
         oauth_verifier,
       },
       body: JSON.stringify({
-        first_name,
-        last_name,
+        firstName: first_name,
+        lastName: last_name,
         email,
       })
     }

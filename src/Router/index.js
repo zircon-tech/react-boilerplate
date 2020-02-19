@@ -12,8 +12,12 @@ import AuthLayout from "../Components/Layouts/authLayout";
 import LoginContainer from "../Containers/LoginContainer";
 import Home from "../Containers/HomeContainer";
 import Register from "../Containers/RegisterContainer";
+import UserProfile from "../Containers/UserProfileContainer";
 import ForgotPassword from "../Containers/ForgotContainer";
 import ResetPassword from "../Containers/ResetPasswordContainer";
+import NotLoggedInRoute from "../Components/Common/notLoggedInRoute";
+import LoggedLayout from "../Components/Layouts/loggedLayout";
+
 
 const RouterComponent = ({children}) => (
   <Router>
@@ -21,15 +25,20 @@ const RouterComponent = ({children}) => (
       <PrivateRoute path="/home">
         <Home />
       </PrivateRoute>
-      <Route path="/user">
+      <NotLoggedInRoute exact path="/user">
         <Register />
-      </Route>
-      <Route exact path="/forgot_password">
+      </NotLoggedInRoute>
+      <NotLoggedInRoute exact path="/forgot_password">
         <AuthLayout header="Recover Password">
           <ForgotPassword />
         </AuthLayout>
-      </Route>
-      <Route exact path="/login">
+      </NotLoggedInRoute>
+      <PrivateRoute path="/user-profile">
+        <LoggedLayout>
+          <UserProfile />
+        </LoggedLayout>
+      </PrivateRoute>
+      <NotLoggedInRoute exact path="/login">
         <AuthLayout
           header="Login"
           links={(
@@ -54,12 +63,12 @@ const RouterComponent = ({children}) => (
         >
           <LoginContainer />
         </AuthLayout>
-      </Route>
-      <Route exact path="/reset_password">
+      </NotLoggedInRoute>
+      <NotLoggedInRoute exact path="/reset_password">
         <AuthLayout header="Recover Password">
           <ResetPassword />
         </AuthLayout>
-      </Route>
+      </NotLoggedInRoute>
       <Route path="/">
         <Redirect to="/home" />
       </Route>

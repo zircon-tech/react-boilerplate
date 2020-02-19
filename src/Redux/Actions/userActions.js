@@ -18,7 +18,7 @@ export const doLogin = (email, password) => dispatch => {
   return tap(
     userService.login(email, password),
     (response) => {
-      dispatch(setCurrentUser(response.data.user.first_name));
+      dispatch(setCurrentUser(response.data.user));
       dispatch(setLoadingAction(false));
       setToken(response.data.jwtToken);
     },
@@ -36,7 +36,7 @@ export const doLoginWGoogle = (accessToken, user) => dispatch => {
     dispatch,
     userService.loginWGoogle(accessToken, user),
     (response) => {
-      dispatch(setCurrentUser(response.data.user.first_name));
+      dispatch(setCurrentUser(response.data.user));
     }
   );
 }; 
@@ -51,6 +51,26 @@ export const doRegister = (user) => dispatch => {
   );
 };
 
+export const getUserProfile = (email) => dispatch => {
+  return withGlobalActions(
+    dispatch,
+    userService.getUserProfile(email),
+    () => {
+      dispatch(alertActions.success("The profile was updated successfully"));
+    }
+  );
+};
+
+export const doUpdateUserProfile = (email) => dispatch => {
+  return withGlobalActions(
+    dispatch,
+    userService.updateUserProfile(email),
+    () => {
+      dispatch(alertActions.success("The profile was updated successfully"));
+    }
+  );
+};
+
 export const doForgotPassword = (email) => dispatch => {
   return withGlobalActions(
     dispatch,
@@ -61,6 +81,7 @@ export const doForgotPassword = (email) => dispatch => {
     }
   );
 };
+
 
 export const doResetPassword = (user, token) => dispatch => {
   return withGlobalActions(

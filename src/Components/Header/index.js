@@ -27,6 +27,11 @@ const Header = ({history}) => {
           </DropdownToggle>
           <DropdownMenu>
             <DropdownItem
+              onClick={() => history.push('/user-profile')}
+            >
+              Profile
+            </DropdownItem>
+            <DropdownItem
               onClick={
                 (ev) => userService.logout().then(
                   () => {

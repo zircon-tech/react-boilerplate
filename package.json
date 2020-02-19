@@ -7,6 +7,7 @@
     "axios": "^0.19.0",
     "bootstrap": "^4.4.1",
     "classnames": "^2.2.6",
+    "connected-react-router": "^6.7.0",
     "memoize-one": "^5.1.1",
     "node-sass": "^4.13.0",
     "prop-types": "^15.7.2",
@@ -20,6 +21,7 @@
     "react-twitter-auth": "0.0.13",
     "reactstrap": "^8.2.0",
     "redux": "^4.0.4",
+    "redux-localstorage": "^0.4.1",
     "redux-thunk": "^2.3.0",
     "validator": "^12.1.0"
   },

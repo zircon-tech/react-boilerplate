@@ -20,7 +20,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => ({
-  loading: state.user.loading
+  loading: state.loading
 });
   
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterContainer);

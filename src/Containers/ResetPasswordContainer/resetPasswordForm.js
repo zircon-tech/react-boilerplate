@@ -95,7 +95,7 @@ class ResetPassword extends Component {
       if (!tokenValidation) {
         return (
           loading ? 
-            <Loader/> : <h5 className="text-danger">This link has alreay been used.</h5>
+            <Loader/> : <h5 className="text-danger">This link has already been used.</h5>
         );
       }
       const validation = this.submitted ?                      
