@@ -23,7 +23,7 @@ class UserProfile extends Component {
   componentDidMount() {
     const {getUserProfile, currentUser} = this.props;
 
-    getUserProfile(currentUser.email).then(resp => {
+    getUserProfile().then(resp => {
       if (resp && resp.data) {
         const user = {
           id: resp.data.id,

@@ -46,8 +46,8 @@ export const register = async (user) => unAuthAxiosCall(
   }
 );
 
-export const getUserProfile = async (email) => authAxiosCall(
-  `/users/profile/${email}`,
+export const getUserProfile = async () => authAxiosCall(
+  '/users/profile/',
   {
     method: 'GET',
   }
@@ -61,7 +61,6 @@ export const updateUserProfile = async (user) => authAxiosCall(
       {
         firstName: user.first_name,
         lastName: user.last_name,
-        email: user.email
       }
     ),
   }

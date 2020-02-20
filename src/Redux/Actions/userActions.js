@@ -54,12 +54,10 @@ export const doRegister = (user) => dispatch => {
   );
 };
 
-export const getUserProfile = (email) => dispatch => {
+export const getUserProfile = () => dispatch => {
   return withGlobalActions(
     dispatch,
-    userService.getUserProfile(email),
-    () => {
-    }
+    userService.getUserProfile()
   );
 };
 

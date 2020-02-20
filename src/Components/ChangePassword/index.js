@@ -70,7 +70,6 @@ const ChangePasswordForm = ({
       doChangePassword({
         oldPassword,
         newPassword,
-        confirmNewPassword
       });
     }
   };
