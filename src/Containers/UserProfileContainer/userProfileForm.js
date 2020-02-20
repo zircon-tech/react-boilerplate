@@ -21,8 +21,7 @@ class UserProfile extends Component {
   }
 
   componentDidMount() {
-    const {getUserProfile, currentUser} = this.props;
-
+    const {getUserProfile} = this.props;
     getUserProfile().then(resp => {
       if (resp && resp.data) {
         const user = {
