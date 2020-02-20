@@ -15,7 +15,7 @@ import LoginContainer from "../Containers/LoginContainer";
 import Home from "../Containers/HomeContainer";
 import Register from "../Containers/RegisterContainer";
 import UserProfile from "../Containers/UserProfileContainer";
-import ForgotPassword from "../Containers/ForgotContainer";
+import ForgotPassword from "../Containers/ForgotPasswordContainer";
 import AcceptInvitation from "../Containers/AcceptInvitationContainer";
 import SendInvitation from "../Containers/SendInvitationContainer";
 import ResetPassword from "../Containers/ResetPasswordContainer";
