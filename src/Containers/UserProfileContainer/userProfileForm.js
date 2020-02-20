@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import classnames from 'classnames';
 import Loader from '../../Components/Common/loader';
 import { form_rules } from '../../Lib/Utils/validations';
+import ChangePasswordForm from '../../Components/ChangePassword';
 
 class UserProfile extends Component {
   constructor(props) {
@@ -35,8 +36,30 @@ class UserProfile extends Component {
     });
   }
 
+  handleClickPassChange = () => {
+    const {
+      doShowModal,
+      doCloseModal, 
+      doChangePassword
+    } = this.props;
+    doShowModal({
+      props: {
+        size: "lg",
+      },
+      headerText: 'Change Password',
+      body: (
+        <ChangePasswordForm
+          doCloseModal={doCloseModal}
+          doChangePassword={doChangePassword}
+        />
+      )
+    });
+  }
+
   handleSubmit = (event) => {
-    const {history, doUpdateUserProfile} = this.props;
+    const {
+      doUpdateUserProfile,
+    } = this.props;
     event.preventDefault();
     this.setState(
       state => {
@@ -47,16 +70,7 @@ class UserProfile extends Component {
       },
       () => {
         if (this.state.validation.isValid) {
-          doUpdateUserProfile(this.state.user).then(
-            response => {
-              if (response) {
-                // history.push('/home');
-              }
-            },
-            error => {
-              
-            }
-          );
+          doUpdateUserProfile(this.state.user);
         }
       }
     );
@@ -75,7 +89,7 @@ class UserProfile extends Component {
 
   render() {
     const {user} = this.state;
-    const {loading, history} = this.props;
+    const {loading } = this.props;
     const validation = this.submitted ?                      
       this.validator.validate(user) :
       this.state.validation;
@@ -131,7 +145,7 @@ class UserProfile extends Component {
                     <button
                       type="button"
                       className="btn btn-primary"
-                      onClick={() => history.push('/login')}
+                      onClick={this.handleClickPassChange}
                     >
                       Change Password
                     </button>
@@ -144,7 +158,6 @@ class UserProfile extends Component {
             </div>
           </div>
         </div>
-       
       )
     );
   }

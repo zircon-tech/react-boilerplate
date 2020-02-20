@@ -138,3 +138,13 @@ export const doLoginWTwitter = (oauth_token, oauth_verifier, user) => dispatch =
     },
   );
 };
+
+export const doChangePassword = (passowords) => dispatch => {
+  return withGlobalActions(
+    dispatch,
+    userService.changePassword(passowords),
+    () => {
+      dispatch(alertActions.success("The password was changed successfully!"));
+    }
+  );
+};

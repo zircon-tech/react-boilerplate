@@ -24,7 +24,7 @@ export const registerFromInvitation = async (user, token) => unAuthAxiosCall(
         lastName: user.last_name,
         email: user.email,
         password: user.password,
-        token : token,
+        token,
         url: 'register?token=',
       }
     ),
@@ -177,5 +177,17 @@ export const checkInvitationToken = async (token) => authAxiosCall(
   `/auth/invitation/check/${token}`,
   {
     method: 'GET',
+  }
+);
+
+export const changePassword = (passwords) => authAxiosCall(
+  '/auth/change_password',
+  {
+    method: 'POST',
+    body: JSON.stringify(
+      {
+        passwords,
+      }
+    )
   }
 );
