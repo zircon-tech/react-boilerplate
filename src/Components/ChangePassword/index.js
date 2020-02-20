@@ -34,7 +34,8 @@ const ChangePasswordForm = ({
         message: 'This field is required.',
       },
       {
-        method: validateFieldPassword,
+        method: (value) => Boolean(validateFieldPassword(value)),
+        validWhen: true,
         message: 'This field must follow password policies.',
       },
     ],
@@ -49,12 +50,14 @@ const ChangePasswordForm = ({
         message: 'This field is required.',
       },
       {
-        method: validateFieldPassword,
+        method: (value) => Boolean(validateFieldPassword(value)),
+        validWhen: true,
         message: 'This field must follow password policies.',
       },
       {
-        method: () => (confirmNewPassword === newPassword),
+        method: (value) => (value === newPassword),
         message: 'The passwords should match.',
+        validWhen: true,
       },
     ],
     confirmNewPassword
