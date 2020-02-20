@@ -67,7 +67,7 @@ export const updateUserProfile = async (user) => authAxiosCall(
 );
 
 export const forgotPassword = (email) => unAuthAxiosCall(
-  '/auth/forgot_password',
+  '/auth/forgot_password_token',
   {
     method: 'POST',
     body: JSON.stringify(
@@ -93,7 +93,7 @@ export const sendInvitation = (email) => authAxiosCall(
 );
 
 export const forgotPasswordConfirm = async (user, token) => (
-  unAuthAxiosCall('/auth/forgot_password_confirm', {
+  unAuthAxiosCall('/auth/forgot_password_confirm_token', {
     method: 'POST',
     body: JSON.stringify({
       password: user.newPassword,
@@ -129,7 +129,7 @@ export function loginWGoogle(accessToken, user) {
 }
 
 export const checkValidationToken = async (token) => authAxiosCall(
-  '/auth/forgot_password_checktoken',
+  '/auth/forgot_password_check_token',
   {
     method: 'POST',
     body: JSON.stringify({
