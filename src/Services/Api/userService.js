@@ -25,7 +25,6 @@ export const registerFromInvitation = async (user, token) => unAuthAxiosCall(
         email: user.email,
         password: user.password,
         token : token,
-        url: 'register?token=',
       }
     ),
   }
@@ -67,7 +66,7 @@ export const sendInvitation = (email) => authAxiosCall(
     body: JSON.stringify(
       {
         email,
-        url: 'register?token='
+        url: 'accept_invitation?token='
       }
     )
   }
