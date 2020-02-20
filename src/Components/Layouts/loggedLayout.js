@@ -13,6 +13,7 @@ const LoggedLayout = ({children}) => (
         </div>
       </div>
     </section>
-  </> 
+  </>
 );
+
 export default LoggedLayout;

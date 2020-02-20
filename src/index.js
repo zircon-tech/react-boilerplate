@@ -5,8 +5,8 @@ import { BrowserRouter } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
 import { store } from './Redux/Store';
 import App from './App';
-import './index.css';
-import './Rsc/Scss/custom.scss';
+import './Rsc/Scss/index.scss';
+// ToDo: Move to scss folder too. Use scss version too
 import '@fortawesome/fontawesome-free/css/all.css';
 
 ReactDOM.render(

@@ -1,11 +1,11 @@
 import React from "react";
-import Welcome from "./welcome";
-import LoggedLayout from "../../Components/Layouts/loggedLayout";
 
-const Home = () => (
-  <LoggedLayout>
-    <Welcome />
-  </LoggedLayout>
-);
+function Welcome() {
+  return (
+    <div>
+      <h2>Welcome to Home</h2>
+    </div>
+  );
+}
 
-export default Home;
+export default Welcome;

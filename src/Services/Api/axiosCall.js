@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { API_URL, API_KEY, } from '../../config';
 import { getToken } from '../../Lib/Utils/auth';
-import ClientError from '../../Lib/Utils/exceptions';
+import {ClientError} from '../../Lib/Utils/exceptions';
 
 const axiosInstance = axios.create({
   headers: {
-    'Content-Type': 'application/json', 
-    Accept: 'application/json', 
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
     'x-api-key': API_KEY,
   },
   validateStatus: (status) => status < 400,
@@ -15,15 +15,15 @@ const axiosInstance = axios.create({
 const axiosCall = async (url, {query, ...requestOptions}) => {
   try {
     const response = await axiosInstance({
-      method: requestOptions.method, 
+      method: requestOptions.method,
       url: encodeQueryParams(`${API_URL}${url}`, query),
       data: requestOptions.body,
       headers: requestOptions.headers,
     });
-    
+
     if (response.status >= 200 && response.status < 400) {
       return response;
-    } 
+    }
   } catch (error) {
     if (error.response.status < 500) {
       throw new ClientError(error.response.data.message, error.response.status);

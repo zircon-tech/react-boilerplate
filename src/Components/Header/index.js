@@ -6,7 +6,6 @@ import { withRouter, NavLink as NavLinkRRD} from "react-router-dom";
 import * as userService from '../../Services/Api/userService';
 import CLogo from '../Common/cLogo';
 import profileImg from '../../Rsc/Images/profileimages.png';
-import '../../Rsc/Css/header.css';
 
 const Header = ({history}) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);

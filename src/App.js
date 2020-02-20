@@ -4,10 +4,7 @@ import Router from "./Router";
 import alertActions from './Redux/Actions/alertActions';
 import * as modalActions from "./Redux/Actions/modalActions";
 import GenericModal from "./Components/Common/genericModal";
-import './Rsc/Css/theme.css';
-import './App.css';
-
-const {FACEBOOK_APP_ID} = "constants";
+import FACEBOOK_APP_ID from "./config";
 
 class App extends Component {
   componentDidMount() {
@@ -27,9 +24,9 @@ class App extends Component {
 
   render() {
     const {
-      alert, 
-      doCloseModal, 
-      cleanModalForm, modal 
+      alert,
+      doCloseModal,
+      cleanModalForm, modal
     } = this.props;
     this.timeout_number =
       alert.message &&

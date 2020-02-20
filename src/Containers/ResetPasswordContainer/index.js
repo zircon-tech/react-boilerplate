@@ -9,13 +9,15 @@ class ResetPasswordContainer extends Component {
     const {
       loading,
       _doResetPassword,
-      _doCheckValidationToken
+      _doCheckValidationToken,
+      token
     } = this.props;
     return (
       <RessetPasswordForm
         loading={loading}
         doResetPassword={_doResetPassword}
         doCheckValidationToken={_doCheckValidationToken}
+        token={token}
       />
     );
   }
@@ -30,5 +32,5 @@ const mapStateToProps = state => ({
   currentUser: state.user.currentUser,
   loading: state.loader.loading
 });
-  
+
 export default connect(mapStateToProps, mapDispatchToProps)(ResetPasswordContainer);
