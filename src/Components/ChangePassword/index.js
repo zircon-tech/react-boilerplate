@@ -70,7 +70,9 @@ const ChangePasswordForm = ({
       doChangePassword({
         oldPassword,
         newPassword,
-      });
+      }).then(
+        doCloseModal()
+      );
     }
   };
 

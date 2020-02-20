@@ -183,9 +183,7 @@ export const changePassword = (passwords) => authAxiosCall(
   {
     method: 'POST',
     body: JSON.stringify(
-      {
-        passwords,
-      }
+      passwords,
     )
   }
 );
