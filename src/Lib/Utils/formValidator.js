@@ -1,6 +1,5 @@
 import validator from 'validator';
 
-
 class FormValidator {
   constructor(validations) {
     // validations is an array of validation rules specific to a form

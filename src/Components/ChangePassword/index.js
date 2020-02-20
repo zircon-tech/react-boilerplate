@@ -2,29 +2,74 @@ import React, {useState} from 'react';
 import {withRouter} from 'react-router-dom';
 import classnames from 'classnames';
 import Loader from '../Common/loader';
-import { form_rules } from '../../Lib/Utils/validations';
+import { fieldValidator } from '../../Lib/Utils/formValidator';
 import PasswordValidationBox from '../PasswordValidation/passwordValidationBox';
 import PasswordInput from '../Common/passwordInput';
-
+import {validateFieldPassword} from "../../Lib/Utils/validations";
 
 const ChangePasswordForm = ({
-  loading, 
-  doChangePassword, 
+  loading,
+  doChangePassword,
   doCloseModal,
   history
 }) => {
+  const [submitted, setSubmitted] = useState(false);
   const [oldPassword, setOldPassword] = useState('');
+  const validateOldPassword = fieldValidator(
+    [
+      {
+        method: 'isEmpty',
+        validWhen: false,
+        message: 'This field is required.',
+      },
+    ],
+    oldPassword
+  ).find(rule => rule.isInvalid);
   const [newPassword, setNewPassword] = useState('');
+  const validateNewPassword = fieldValidator(
+    [
+      {
+        method: 'isEmpty',
+        validWhen: false,
+        message: 'This field is required.',
+      },
+      {
+        method: validateFieldPassword,
+        message: 'This field must follow password policies.',
+      },
+    ],
+    newPassword
+  ).find(rule => rule.isInvalid);
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const validateConfirmNewPassword = fieldValidator(
+    [
+      {
+        method: 'isEmpty',
+        validWhen: false,
+        message: 'This field is required.',
+      },
+      {
+        method: validateFieldPassword,
+        message: 'This field must follow password policies.',
+      },
+      {
+        method: () => (confirmNewPassword === newPassword),
+        message: 'The passwords should match.',
+      },
+    ],
+    confirmNewPassword
+  ).find(rule => rule.isInvalid);
   const [show, setShow] = useState(false);
-  
+
   const handleSubmit = () => {
-    const passwords = {
-      oldPassword,
-      newPassword,
-      confirmNewPassword
-    };
-    doChangePassword(passwords);
+    setSubmitted(true);
+    if (!validateConfirmNewPassword && !validateNewPassword && !validateOldPassword) {
+      doChangePassword({
+        oldPassword,
+        newPassword,
+        confirmNewPassword
+      });
+    }
   };
 
   return (
@@ -36,7 +81,7 @@ const ChangePasswordForm = ({
               classnames(
                 'form-control py-2',
                 {
-                  // 'is-invalid': validation.newPassword.isInvalid
+                  'is-invalid': (submitted && validateOldPassword),
                 }
               )
             }
@@ -46,7 +91,11 @@ const ChangePasswordForm = ({
             placeholder="Password"
             value={oldPassword}
           />
-          {/* <span className="text-muted">{validation.oldPassword.message}</span> */}
+          {
+            (submitted && validateOldPassword) && (
+              <span className="text-muted">{validateOldPassword.message}</span>
+            )
+          }
         </div>
         <div className="form-group py-1">
           <PasswordInput
@@ -54,7 +103,7 @@ const ChangePasswordForm = ({
               classnames(
                 'form-control py-2',
                 {
-                  // 'is-invalid': validation.newPassword.isInvalid
+                  'is-invalid': (submitted && validateNewPassword),
                 }
               )
             }
@@ -65,7 +114,11 @@ const ChangePasswordForm = ({
             placeholder="New Password"
             value={newPassword}
           />
-          {/* <span className="text-muted">{validation.newPassword.message}</span> */}
+          {
+            (submitted && validateNewPassword) && (
+              <span className="text-muted">{validateNewPassword.message}</span>
+            )
+          }
         </div>
         <div className="form-group py-1">
           <PasswordInput
@@ -73,7 +126,7 @@ const ChangePasswordForm = ({
               classnames(
                 'form-control py-2',
                 {
-                  //'is-invalid': validation.reNewPassword.isInvalid
+                  'is-invalid': (submitted && validateConfirmNewPassword),
                 }
               )
             }
@@ -83,15 +136,19 @@ const ChangePasswordForm = ({
             placeholder="Confirm Password"
             value={confirmNewPassword}
           />
-          {/* <span className="text-muted">{validation.reNewPassword.message}</span> */}
+          {
+            (submitted && validateConfirmNewPassword) && (
+              <span className="text-muted">{validateConfirmNewPassword.message}</span>
+            )
+          }
         </div>
         {
-          show ? (
+          show && (
             <PasswordValidationBox
               password={newPassword}
               rePassword={confirmNewPassword}
             />
-          ) : null
+          )
         }
         <div className="row mt-5">
           <button

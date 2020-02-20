@@ -9,7 +9,7 @@ class UserProfile extends Component {
   constructor(props) {
     super(props);
     this.validator = form_rules;
-    this.state = { 
+    this.state = {
       user: {
         first_name: '',
         last_name: '',
@@ -19,10 +19,10 @@ class UserProfile extends Component {
     };
     this.submitted = false;
   }
-  
+
   componentDidMount() {
     const {getUserProfile, currentUser} = this.props;
-    
+
     getUserProfile(currentUser.email).then(resp => {
       if (resp && resp.data) {
         const user = {
@@ -39,7 +39,7 @@ class UserProfile extends Component {
   handleClickPassChange = () => {
     const {
       doShowModal,
-      doCloseModal, 
+      doCloseModal,
       doChangePassword
     } = this.props;
     doShowModal({
@@ -54,7 +54,7 @@ class UserProfile extends Component {
         />
       )
     });
-  }
+  };
 
   handleSubmit = (event) => {
     const {
@@ -64,8 +64,8 @@ class UserProfile extends Component {
     this.setState(
       state => {
         const validation = this.validator.validate(state.user);
-        return { 
-          validation 
+        return {
+          validation
         };
       },
       () => {
@@ -75,7 +75,7 @@ class UserProfile extends Component {
       }
     );
     this.submitted = true;
-  }
+  };
 
   handleOnChange = (e) => {
     const {name, value} = e.target;
@@ -85,12 +85,12 @@ class UserProfile extends Component {
         [name]: value
       }
     }));
-  }
+  };
 
   render() {
     const {user} = this.state;
     const {loading } = this.props;
-    const validation = this.submitted ?                      
+    const validation = this.submitted ?
       this.validator.validate(user) :
       this.state.validation;
     return (
@@ -103,11 +103,11 @@ class UserProfile extends Component {
                 <div className="form-group row">
                   <label htmlFor="email" className="mx-auto col-form-label">Email</label>
                   <div className="col-10">
-                    <input 
+                    <input
                       className="form-control"
-                      name="email" 
-                      placeholder="Email" 
-                      type="text" 
+                      name="email"
+                      placeholder="Email"
+                      type="text"
                       value={user && user.email}
                       disabled
                     />
@@ -116,12 +116,12 @@ class UserProfile extends Component {
                 <div className="form-group row">
                   <label htmlFor="first_name" className="mx-auto col-form-label">First Name</label>
                   <div className="col-10">
-                    <input 
-                      className={classnames("form-control", {'is-invalid': validation.first_name.isInvalid })} 
-                      name="first_name" 
-                      onChange={this.handleOnChange} 
-                      placeholder="First Name" 
-                      type="text" 
+                    <input
+                      className={classnames("form-control", {'is-invalid': validation.first_name.isInvalid })}
+                      name="first_name"
+                      onChange={this.handleOnChange}
+                      placeholder="First Name"
+                      type="text"
                       value={user && user.first_name}
                     />
                     <span className="text-muted">{validation.first_name.message}</span>
@@ -130,12 +130,12 @@ class UserProfile extends Component {
                 <div className="form-group row">
                   <label htmlFor="last_name" className="mx-auto col-form-label">Last Name</label>
                   <div className="col-10">
-                    <input 
-                      className={classnames("form-control", {'is-invalid': validation.last_name.isInvalid })} 
-                      onChange={this.handleOnChange} 
-                      placeholder="Last Name" 
-                      type="text" name="last_name" 
-                      value={user && user.last_name} 
+                    <input
+                      className={classnames("form-control", {'is-invalid': validation.last_name.isInvalid })}
+                      onChange={this.handleOnChange}
+                      placeholder="Last Name"
+                      type="text" name="last_name"
+                      value={user && user.last_name}
                     />
                     <span className="text-muted">{validation.last_name.message}</span>
                   </div>
@@ -152,7 +152,7 @@ class UserProfile extends Component {
                   </div>
                   <div className="col-6 text-left">
                     <button type="submit" className="btn btn-primary">Save</button>
-                  </div>                            
+                  </div>
                 </div>
               </form>
             </div>
